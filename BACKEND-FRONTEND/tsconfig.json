@@ -1,0 +1,42 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": false,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "incremental": true,
+        "skipLibCheck": true,
+        "alwaysStrict": true,
+        "downlevelIteration": true,
+        "inlineSourceMap": true,
+        "noEmitOnError": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": false,
+        "noImplicitReturns": false,
+        "noImplicitAny": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedParameters": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "stripInternal": true,
+        "useDefineForClassFields": true,
+        "useUnknownInCatchVariables": false,
+        "baseUrl": ".",
+        "paths": {
+            "@/components/*": ["./components/*"],
+            "@/pages/*": ["./pages/*"]
+        }
+    },
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/GalleriaProdotto/[id].jsx", "prisma/seed.js"],
+    "exclude": ["typings/browser.d.ts", "typings/browser", "node_modules"]
+}
