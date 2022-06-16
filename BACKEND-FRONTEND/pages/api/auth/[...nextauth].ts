@@ -1,7 +1,9 @@
-import NextAuth from 'next-auth'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import NextAuth, { NextAuthOptions } from 'next-auth'
 import prisma from '../../../lib/prisma'
-import GoogleProvider from 'next-auth/providers/google'
+import Adapters from 'next-auth/adapters'
+import Providers from 'next-auth/providers'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const GOOGLE_AUTHORIZATION_URL =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
@@ -51,43 +53,37 @@ const refreshAccessToken = async (payload: any, clientId: string, clientSecret: 
     }
 }
 
-export default NextAuth({
-    
-    pages: {
-        error: '/errorSignIn', // Error code passed in query string as ?error=
-    },
+export const options: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
-        GoogleProvider({
+        Providers.Google({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-            authorization: GOOGLE_AUTHORIZATION_URL,
+            authorizationUrl: GOOGLE_AUTHORIZATION_URL,
         }),
     ],
     jwt: {
         secret: process.env.NEXTAUTH_SECRET,
-        maxAge: 60 * 60 * 24 * 30,
     },
     callbacks: {
-        async session({ session, user }: any) {
+        async session(session, user) {
             session.jwt = user.jwt
             session.id = user.id
             return session
         },
-        async jwt({ token, user, account }: any) {
-            // Initial sign in
-            if (account && user) {
-                return {
-                    accessToken: account.access_token,
-                    accessTokenExpires: Date.now() + account.expires_at * 1000,
-                    refreshToken: account.refresh_token,
-                    user,
-                }
+        async jwt(token, user, account) {
+            const isSignIn = user ? true : false
+            if (isSignIn) {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/${account!.provider}/callback?access_token=${account!?.access_token}`)
+                const data = await response.json()
+                ;(token.accessToken = account!.accessToken), (token.accessTokenExpires = account!.expires_in!), (token.refreshToken = account!.refresh_token), (token.jwt = data.jwt)
+                token.id = data.user.id
+                console.log(data, token)
             }
 
             // Return previous token if the access token has not expired yet
-            if (Date.now() < token.accessTokenExpires) {
+            if (Date.now() < (token as any).accessTokenExpires) {
                 return token
             }
 
@@ -95,5 +91,11 @@ export default NextAuth({
             return await refreshAccessToken(token, String(process.env.GOOGLE_CLIENT_ID), String(process.env.GOOGLE_CLIENT_SECRET))
         },
     },
+    pages: {
+        signIn: '/auth/Login',
+        error: '/auth/Login',
+    },
     debug: true,
-})
+}
+
+export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, options)

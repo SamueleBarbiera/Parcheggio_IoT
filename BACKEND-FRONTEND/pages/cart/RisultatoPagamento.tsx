@@ -8,7 +8,7 @@ import { fetchGetJSON } from '../../content/utils/api-helpers'
 import { CheckIcon, RefreshIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import { getSession } from 'next-auth/react'
+import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 
 const RisultatoPagamento: NextPage = () => {

@@ -7,67 +7,132 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id        String  @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
+generator dbml {
+  provider = "prisma-dbml-generator"
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
-  oauth_token_secret String?
-  oauth_token        String?
+  id                 String    @id @default(cuid())
+  userId             String
+  providerType       String
+  providerId         String
+  providerAccountId  String
+  refreshToken       String?
+  accessToken        String?
+  accessTokenExpires DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               User      @relation(fields: [userId], references: [id])
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@map("accounts")
+  @@unique([providerId, providerAccountId])
 }
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String   @unique @map("session_token")
-  userId       String   @map("user_id")
+  userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
+  sessionToken String   @unique
+  accessToken  String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
+  email         String?     @unique
+  emailVerified DateTime?
   image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  posts         Post[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   accounts      Account[]
   sessions      Session[]
-
-  @@map(name: "users")
+  Veicolo       Veicolo[]
+  Targa         Targa[]
+  Parcheggi     Parcheggi[]
 }
 
-model VerificationToken {
+model VerificationRequest {
+  id         String   @id @default(cuid())
   identifier String
   token      String   @unique
   expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
+  Veicolo   Veicolo[]
+  Targa     Targa[]
+  Parcheggi Parcheggi[]
   @@unique([identifier, token])
-  @@map("verificationtokens")
+}
+
+model Veicolo {
+  veicolo_id  String   @id @default(cuid())
+  descrizione String
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @updatedAt @map(name: "updated_at")
+  user        User     @relation(fields: [user_id_fk], references: [id])
+  user_id_fk  String   @unique
+
+  Parcheggi             Parcheggi?
+  VerificationRequest   VerificationRequest? @relation(fields: [verificationRequestId], references: [id])
+  verificationRequestId String?
+  @@map(name: "veicolo")
+}
+
+model Rfids {
+  rfid_id   String   @id @default(cuid())
+  codice    String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  Targa Targa?
+  @@map(name: "rfids")
+}
+
+model Durata {
+  durata_id       String    @id @default(cuid())
+  tempo_calcolato Float
+  createdAt       DateTime  @default(now()) @map(name: "created_at")
+  updatedAt       DateTime  @updatedAt @map(name: "updated_at")
+  parcheggi       Parcheggi @relation(fields: [parcheggi_id_fk], references: [parcheggi_id])
+  parcheggi_id_fk String
+
+  @@map(name: "durata")
+}
+
+model Targa {
+  targa_id   String   @id @default(cuid())
+  sigla      String
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @updatedAt @map(name: "updated_at")
+  rfids      Rfids    @relation(fields: [rfid_id_fk], references: [rfid_id])
+  rfid_id_fk String   @unique
+  user       User     @relation(fields: [user_id_fk], references: [id])
+  user_id_fk String   @unique
+
+  Parcheggi             Parcheggi?
+  VerificationRequest   VerificationRequest? @relation(fields: [verificationRequestId], references: [id])
+  verificationRequestId String?
+  @@map(name: "targa")
+}
+
+model Parcheggi {
+  parcheggi_id   String   @id @default(cuid())
+  num_parcheggio Int
+  stato          Boolean
+  createdAt      DateTime @default(now()) @map(name: "created_at")
+  updatedAt      DateTime @updatedAt @map(name: "updated_at")
+  targa          Targa    @relation(fields: [targa_id_fk], references: [targa_id])
+  targa_id_fk    String   @unique
+  veicolo        Veicolo  @relation(fields: [veicolo_id_fk], references: [veicolo_id])
+  veicolo_id_fk  String   @unique
+  Durata         Durata[]
+
+  User                  User?                @relation(fields: [user_id_fk], references: [id])
+  user_id_fk            String?
+  VerificationRequest   VerificationRequest? @relation(fields: [verificationRequestId], references: [id])
+  verificationRequestId String?
+  @@map(name: "parcheggi")
 }

@@ -2,22 +2,22 @@
 /* eslint-disable no-unused-vars */
 import { ChartBarIcon, RefreshIcon, ShieldCheckIcon, ViewGridIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Dialog, Popover, Transition } from '@headlessui/react'
-import { FaRegUser } from 'react-icons/fa'
-import { MdOutlineShoppingBag, MdOutlineSell } from 'react-icons/md'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { FaRegUser, FaParking } from 'react-icons/fa'
+import { MdOutlineShoppingBag } from 'react-icons/md'
+import { useSession, signIn, signOut } from 'next-auth/client'
 import { Fragment, useState, useEffect } from 'react'
 import { myLoader } from '../../pages/_app'
 import { BiTrendingUp, BiHomeAlt, BiBarcodeReader } from 'react-icons/bi'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useShoppingCart } from 'use-shopping-cart'
 import CartSummary from '../cart/CartSummary'
+import { AiTwotoneCar } from 'react-icons/ai'
 
 const navigation = {
     pages: [
-        { name: 'Home', href: '/', icon: <BiHomeAlt className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" /> },
-        { name: 'Prodotti', href: '/Prodotti', icon: <BiBarcodeReader className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" /> },
+        { name: 'Home', href: '/', icon: <AiTwotoneCar className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" /> },
+        { name: 'Parcheggi', href: '/Parcheggi', icon: <FaParking className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" /> },
     ],
 }
 
@@ -26,10 +26,8 @@ function classNames(...classes: any[]) {
 }
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const { data: session, status } = useSession()
+    const [session, loading] = useSession()
     const { cartCount } = useShoppingCart()
-    const router = useRouter()
-    const isActive: (pathname: string) => boolean = (pathname) => router.pathname === pathname
 
     return (
         <>
@@ -99,7 +97,7 @@ export default function Header() {
                                         {/* Logo (lg+) */}
                                         <div className="hidden md:flex md:flex-1 lg:items-center">
                                             <a href="/" className="flex-shrink-0">
-                                                <Image width={16} height={32} loader={myLoader} src={'/domanda.png'} alt="" />
+                                                <AiTwotoneCar className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" />
                                             </a>
                                         </div>
 
@@ -169,6 +167,11 @@ export default function Header() {
                                                                                     >
                                                                                         Sign Out
                                                                                     </button>
+                                                                                    <Link href="/auth/PannelloPersonale">
+                                                                                        <button className="text-medium mt-2 inline-flex w-full justify-center  rounded-lg bg-indigo-500 py-2 px-4 font-medium text-indigo-50 shadow-lg transition duration-200 ease-in-out hover:bg-indigo-600">
+                                                                                            Impostazioni
+                                                                                        </button>
+                                                                                    </Link>
                                                                                 </div>
                                                                             </div>
                                                                         </Popover.Panel>
@@ -177,15 +180,14 @@ export default function Header() {
                                                             )}
                                                         </Popover>
                                                     </div>
-                                                ) : status == 'loading' ? (
+                                                ) : loading ? (
                                                     <RefreshIcon className="mr-4 h-6 w-6 flex-shrink-0 animate-spin text-indigo-800 " />
                                                 ) : (
-                                                    <button
-                                                        className="mr-4 rounded-lg bg-indigo-500 py-1 px-2 text-indigo-50 transition duration-200 ease-in-out hover:bg-indigo-600"
-                                                        onClick={() => signIn()}
-                                                    >
-                                                        Accedi
-                                                    </button>
+                                                    <Link href="/auth/Login">
+                                                        <button className="mr-4 rounded-lg bg-indigo-500 py-1 px-2 text-indigo-50 transition duration-200 ease-in-out hover:bg-indigo-600">
+                                                            Accedi
+                                                        </button>
+                                                    </Link>
                                                 )}
                                                 {/* Cart */}
                                                 <div className="ml-2 mr-12 mt-[0.4rem] flow-root">

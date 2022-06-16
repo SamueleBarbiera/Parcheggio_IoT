@@ -1,7 +1,7 @@
 import React from 'react'
 import { GetServerSideProps } from 'next'
 import Post, { PostProps } from '../components/Post'
-import { useSession, getSession } from 'next-auth/react'
+import { useSession, getSession } from 'next-auth/client'
 import prisma from '../lib/prisma'
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {

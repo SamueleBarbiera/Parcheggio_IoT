@@ -10,7 +10,7 @@ type Props = {
     feed: PostProps[]
 }
 
-const Blog: React.FC<Props> = (props) => {
+const Blog: React.FC<Props> = () => {
     return (
         <>
             <Head>
@@ -21,33 +21,33 @@ const Blog: React.FC<Props> = (props) => {
 
             <Header />
             <main className="flex h-screen items-center justify-center">
-                {props.feed.map((post) => (
+                {/* {props.feed.map((post) => (
                     <div key={post.id} className="post">
                         <Post post={post} />
                     </div>
-                ))}
+                ))} */}
             </main>
             <Footer />
         </>
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-    const feed = await prisma.post.findMany({
-        where: {
-            published: true,
-        },
-        include: {
-            author: {
-                select: {
-                    name: true,
-                },
-            },
-        },
-    })
-    return {
-        props: { feed },
-    }
-}
+// export const getServerSideProps: GetServerSideProps = async () => {
+//     const feed = await prisma.utente.findMany({
+//         where: {
+//             published: true,
+//         },
+//         include: {
+//             author: {
+//                 select: {
+//                     name: true,
+//                 },
+//             },
+//         },
+//     })
+//     return {
+//         props: { feed },
+//     }
+// }
 
 export default Blog
