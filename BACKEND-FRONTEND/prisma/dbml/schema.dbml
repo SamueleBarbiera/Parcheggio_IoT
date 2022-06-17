@@ -31,6 +31,19 @@ Table Session {
   user User [not null]
 }
 
+Table VerificationRequest {
+  id String [pk]
+  identifier String [not null]
+  token String [unique, not null]
+  expires DateTime [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+
+  indexes {
+    (identifier, token) [unique]
+  }
+}
+
 Table User {
   id String [pk]
   name String
@@ -41,107 +54,42 @@ Table User {
   updatedAt DateTime [not null]
   accounts Account [not null]
   sessions Session [not null]
-  Veicolo veicolo [not null]
-  Targa targa [not null]
-  Parcheggi parcheggi [not null]
-}
-
-Table VerificationRequest {
-  id String [pk]
-  identifier String [not null]
-  token String [unique, not null]
-  expires DateTime [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  Veicolo veicolo [not null]
-  Targa targa [not null]
-  Parcheggi parcheggi [not null]
-
-  indexes {
-    (identifier, token) [unique]
-  }
-}
-
-Table veicolo {
-  veicolo_id String [pk]
-  descrizione String [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  user User [not null]
-  user_id_fk String [unique, not null]
-  Parcheggi parcheggi
-  VerificationRequest VerificationRequest
-  verificationRequestId String
+  Rfids rfids
 }
 
 Table rfids {
   rfid_id String [pk]
   codice String [not null]
+  stato Boolean [not null]
+  user User
+  user_id_fk String [unique]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  Targa targa
 }
 
 Table durata {
   durata_id String [pk]
   tempo_calcolato Float [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
   parcheggi parcheggi [not null]
   parcheggi_id_fk String [not null]
-}
-
-Table targa {
-  targa_id String [pk]
-  sigla String [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  rfids rfids [not null]
-  rfid_id_fk String [unique, not null]
-  user User [not null]
-  user_id_fk String [unique, not null]
-  Parcheggi parcheggi
-  VerificationRequest VerificationRequest
-  verificationRequestId String
 }
 
 Table parcheggi {
   parcheggi_id String [pk]
-  num_parcheggio Int [not null]
+  piano Int [not null]
+  posto Int [not null]
   stato Boolean [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  targa targa [not null]
-  targa_id_fk String [unique, not null]
-  veicolo veicolo [not null]
-  veicolo_id_fk String [unique, not null]
   Durata durata [not null]
-  User User
-  user_id_fk String
-  VerificationRequest VerificationRequest
-  verificationRequestId String
 }
 
 Ref: Account.userId > User.id
 
 Ref: Session.userId > User.id
 
-Ref: veicolo.user_id_fk > User.id
-
-Ref: veicolo.verificationRequestId > VerificationRequest.id
+Ref: rfids.user_id_fk - User.id
 
 Ref: durata.parcheggi_id_fk > parcheggi.parcheggi_id
-
-Ref: targa.rfid_id_fk - rfids.rfid_id
-
-Ref: targa.user_id_fk > User.id
-
-Ref: targa.verificationRequestId > VerificationRequest.id
-
-Ref: parcheggi.targa_id_fk - targa.targa_id
-
-Ref: parcheggi.veicolo_id_fk - veicolo.veicolo_id
-
-Ref: parcheggi.user_id_fk > User.id
-
-Ref: parcheggi.verificationRequestId > VerificationRequest.id

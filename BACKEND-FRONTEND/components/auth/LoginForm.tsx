@@ -1,11 +1,11 @@
 /* eslint-disable no-control-regex */
 /* eslint-disable no-unused-vars */
-import { signIn, useSession } from 'next-auth/client'
+import { PrismaClient } from '@prisma/client'
+import { GetServerSideProps } from 'next'
+import { getSession, signIn, useSession } from 'next-auth/client'
 import { AiTwotoneCar } from 'react-icons/ai'
 
 export default function LoginForm({ providers }: any) {
-    console.log('🚀 - file: LoginForm.tsx - line 6 - LoginForm - providers', providers)
-    const error = useSession()
     return (
         <>
             <div className="flex h-screen flex-col justify-center bg-indigo-900 px-6 py-4">
@@ -44,3 +44,5 @@ export default function LoginForm({ providers }: any) {
         </>
     )
 }
+
+

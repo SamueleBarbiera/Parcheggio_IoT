@@ -16,8 +16,16 @@ import { AiTwotoneCar } from 'react-icons/ai'
 
 const navigation = {
     pages: [
-        { name: 'Home', href: '/', icon: <AiTwotoneCar className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" /> },
-        { name: 'Parcheggi', href: '/Parcheggi', icon: <FaParking className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" /> },
+        {
+            name: 'Home',
+            href: '/',
+            icon: <AiTwotoneCar className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" />,
+        },
+        {
+            name: 'Parcheggi',
+            href: '/Parcheggi',
+            icon: <FaParking className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" />,
+        },
     ],
 }
 
@@ -57,7 +65,11 @@ export default function Header() {
                     >
                         <div className="relative flex w-2/3 flex-col overflow-y-auto bg-indigo-50 pb-8 shadow-xl md:hidden">
                             <div className="flex p-2 ">
-                                <button type="button" className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-indigo-400" onClick={() => setMobileMenuOpen(false)}>
+                                <button
+                                    type="button"
+                                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-indigo-400"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
                                     <XIcon className="h-6 w-6 text-indigo-900" aria-hidden="true" />
                                 </button>
                             </div>
@@ -65,7 +77,10 @@ export default function Header() {
                             <div className="space-y-6 py-6 px-6">
                                 {navigation.pages.map((page) => (
                                     <div key={page.name} className="flow-root">
-                                        <a href={page.href} className="-m-2 mb-1 block justify-between rounded-lg bg-indigo-200 p-2 font-medium text-indigo-900">
+                                        <a
+                                            href={page.href}
+                                            className="-m-2 mb-1 block justify-between rounded-lg bg-indigo-200 p-2 font-medium text-indigo-900"
+                                        >
                                             <div className="flex flex-1 flex-col">
                                                 <div>
                                                     <div className="flex  w-full min-w-full justify-between text-sm font-medium text-gray-900">
@@ -97,7 +112,10 @@ export default function Header() {
                                         {/* Logo (lg+) */}
                                         <div className="hidden md:flex md:flex-1 lg:items-center">
                                             <a href="/" className="flex-shrink-0">
-                                                <AiTwotoneCar className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" />
+                                                <AiTwotoneCar
+                                                    className="h-6 w-6 flex-shrink-0 text-indigo-900"
+                                                    aria-hidden="true"
+                                                />
                                             </a>
                                         </div>
 
@@ -105,7 +123,11 @@ export default function Header() {
                                             {/* Flyout menus */}
                                             <Popover.Group className="inset-x-0 bottom-0 px-4">
                                                 <div className="flex h-full items-center justify-between space-x-8">
-                                                    <a key={navigation?.pages[1]?.name} href={navigation?.pages[1]?.href} className="flex items-center gap-x-2 text-sm  font-medium text-indigo-900">
+                                                    <a
+                                                        key={navigation?.pages[1]?.name}
+                                                        href={navigation?.pages[1]?.href}
+                                                        className="flex items-center gap-x-2 text-sm  font-medium text-indigo-900"
+                                                    >
                                                         <p className="items-start">{navigation?.pages[1]?.name} </p>
                                                         <p className="items-end">{navigation?.pages[1]?.icon}</p>
                                                     </a>
@@ -115,32 +137,50 @@ export default function Header() {
 
                                         {/* Mobile menu and search (lg-) */}
                                         <div className="flex flex-1 items-center md:hidden">
-                                            <button type="button" className="-ml-2 p-2 text-indigo-900" onClick={() => setMobileMenuOpen(true)}>
+                                            <button
+                                                type="button"
+                                                className="-ml-2 p-2 text-indigo-900"
+                                                onClick={() => setMobileMenuOpen(true)}
+                                            >
                                                 <MenuIcon className="h-6 w-6" aria-hidden="true" />
                                             </button>
                                         </div>
 
                                         {/* Logo (lg-) */}
                                         <a href="#" className="hidden">
-                                            <Image width={2} height={36} loader={myLoader} src={'/domanda.png'} alt="" />
+                                            <Image
+                                                width={2}
+                                                height={36}
+                                                loader={myLoader}
+                                                src={'/domanda.png'}
+                                                alt=""
+                                            />
                                         </a>
 
                                         <div className="flex flex-1 items-center justify-end">
-                                            <div className="-mr-12 flex items-center">
+                                            <div className="-mr-4 flex items-center">
                                                 {/* Help */}
                                                 {session ? (
-                                                    <div className="mr-4 mt-[0.4rem] flow-root">
+                                                    <div className="ml-2 mr-4 mt-[0.4rem] flow-root">
                                                         <Popover className="relative">
                                                             {({ open }: any) => (
                                                                 <>
                                                                     <Popover.Button
                                                                         className={classNames(
-                                                                            open ? 'text-indigo-900' : 'text-indigo-800',
+                                                                            open
+                                                                                ? 'text-indigo-900'
+                                                                                : 'text-indigo-800',
                                                                             'group inline-flex items-center rounded-md text-base font-medium hover:text-indigo-900 '
                                                                         )}
                                                                     >
-                                                                        <a href="#" className="group -m-2 flex items-center p-2">
-                                                                            <FaRegUser className="h-5 w-5" aria-hidden="true" />
+                                                                        <a
+                                                                            href="#"
+                                                                            className="group -m-2 flex items-center p-2"
+                                                                        >
+                                                                            <FaRegUser
+                                                                                className="h-5 w-5"
+                                                                                aria-hidden="true"
+                                                                            />
                                                                         </a>
                                                                     </Popover.Button>
 
@@ -157,13 +197,26 @@ export default function Header() {
                                                                             <div className="overflow-hidden rounded-lg shadow-lg">
                                                                                 <div className="absolute items-center justify-center rounded-lg border bg-indigo-50 px-6 py-6 shadow-xl">
                                                                                     <div className="relative my-4 items-center">
-                                                                                        <img src={session!.user!.image! as any} alt="User Img" className="mx-auto h-24 w-24 rounded-full shadow-md" />
+                                                                                        <img
+                                                                                            src={
+                                                                                                session!.user!
+                                                                                                    .image! as any
+                                                                                            }
+                                                                                            alt="User Img"
+                                                                                            className="mx-auto h-24 w-24 rounded-full shadow-md"
+                                                                                        />
                                                                                     </div>
-                                                                                    <p className="font-semibold text-indigo-900 contrast-150">{session!.user!.name}</p>
+                                                                                    <p className="font-semibold text-indigo-900 contrast-150">
+                                                                                        {session!.user!.name}
+                                                                                    </p>
                                                                                     <p>{session!.user!.email}</p>
                                                                                     <button
                                                                                         className="text-medium mt-2 inline-flex w-full justify-center  rounded-lg bg-indigo-500 py-2 px-4 font-medium text-indigo-50 shadow-lg transition duration-200 ease-in-out hover:bg-indigo-600"
-                                                                                        onClick={() => signOut({ redirect: true })}
+                                                                                        onClick={() =>
+                                                                                            signOut({
+                                                                                                redirect: true,
+                                                                                            })
+                                                                                        }
                                                                                     >
                                                                                         Sign Out
                                                                                     </button>
@@ -189,7 +242,7 @@ export default function Header() {
                                                         </button>
                                                     </Link>
                                                 )}
-                                                {/* Cart */}
+                                                {/* Cart 
                                                 <div className="ml-2 mr-12 mt-[0.4rem] flow-root">
                                                     <Popover className="relative">
                                                         {({ open }: any) => (
@@ -222,7 +275,7 @@ export default function Header() {
                                                             </>
                                                         )}
                                                     </Popover>
-                                                </div>
+                                                </div>*/}
                                             </div>
                                         </div>
                                     </div>
