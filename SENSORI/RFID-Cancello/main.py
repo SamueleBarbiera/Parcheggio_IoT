@@ -1,6 +1,5 @@
-import RPi.GPIO as GPIO #Importe la bibliothèque pour contrôler les GPIOs
+import RPi.GPIO as GPIO
 from pirc522 import RFID
-import eventlet
 import time
 import requests as r
 import requests.exceptions
@@ -39,9 +38,8 @@ while True:
             jsonOBJ = {'codice': uidString}
             print("RFID Ricevuto")
             try:
-                response = r.get(url=URL+"cancello", json=jsonOBJ)
+                response = r.get(url=URL+"cancello", json=jsonOBJ, timeout=5)
                 response.raise_for_status()
-                print("Fatto")
             except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
                 print("Down")
                 GPIO.output(YELLOW,1)
@@ -66,7 +64,6 @@ while True:
                 GPIO.output(SONAR,0)
                 GPIO.output(YELLOW,0)
             else:
-                print("All good!")  # Proceed to do stuff with `r` 
                 if response.status_code != 200:
 
                     while response.status_code != 200:
@@ -94,7 +91,6 @@ while True:
                         GPIO.output(SONAR,0)
                         time.sleep(2)
                         GPIO.output(GREEN,0)
-            finally:
-                response.close()
+                    response.close()
 
             time.sleep(1)
