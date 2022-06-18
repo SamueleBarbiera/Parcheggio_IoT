@@ -38,21 +38,6 @@ model Session {
   user         User     @relation(fields: [userId], references: [id])
 }
 
-model User {
-  id            String      @id @default(cuid())
-  name          String?
-  email         String?     @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  Veicolo       Veicolo[]
-  Targa         Targa[]
-  Parcheggi     Parcheggi[]
-}
-
 model VerificationRequest {
   id         String   @id @default(cuid())
   identifier String
@@ -61,78 +46,57 @@ model VerificationRequest {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  Veicolo   Veicolo[]
-  Targa     Targa[]
-  Parcheggi Parcheggi[]
   @@unique([identifier, token])
 }
 
-model Veicolo {
-  veicolo_id  String   @id @default(cuid())
-  descrizione String
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @updatedAt @map(name: "updated_at")
-  user        User     @relation(fields: [user_id_fk], references: [id])
-  user_id_fk  String   @unique
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  Parcheggi             Parcheggi?
-  VerificationRequest   VerificationRequest? @relation(fields: [verificationRequestId], references: [id])
-  verificationRequestId String?
-  @@map(name: "veicolo")
+  accounts Account[]
+  sessions Session[]
+  Rfids    Rfids?
 }
 
 model Rfids {
-  rfid_id   String   @id @default(cuid())
-  codice    String
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  rfid_id    String   @id @default(cuid())
+  codice     String
+  stato      Boolean
+  user       User?    @relation(fields: [user_id_fk], references: [id])
+  user_id_fk String?  @unique
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @updatedAt @map(name: "updated_at")
 
-  Targa Targa?
   @@map(name: "rfids")
 }
 
 model Durata {
   durata_id       String    @id @default(cuid())
   tempo_calcolato Float
-  createdAt       DateTime  @default(now()) @map(name: "created_at")
-  updatedAt       DateTime  @updatedAt @map(name: "updated_at")
+  data            DateTime
   parcheggi       Parcheggi @relation(fields: [parcheggi_id_fk], references: [parcheggi_id])
   parcheggi_id_fk String
+  createdAt       DateTime  @default(now()) @map(name: "created_at")
+  updatedAt       DateTime  @updatedAt @map(name: "updated_at")
 
   @@map(name: "durata")
 }
 
-model Targa {
-  targa_id   String   @id @default(cuid())
-  sigla      String
-  createdAt  DateTime @default(now()) @map(name: "created_at")
-  updatedAt  DateTime @updatedAt @map(name: "updated_at")
-  rfids      Rfids    @relation(fields: [rfid_id_fk], references: [rfid_id])
-  rfid_id_fk String   @unique
-  user       User     @relation(fields: [user_id_fk], references: [id])
-  user_id_fk String   @unique
-
-  Parcheggi             Parcheggi?
-  VerificationRequest   VerificationRequest? @relation(fields: [verificationRequestId], references: [id])
-  verificationRequestId String?
-  @@map(name: "targa")
-}
-
 model Parcheggi {
-  parcheggi_id   String   @id @default(cuid())
-  num_parcheggio Int
-  stato          Boolean
-  createdAt      DateTime @default(now()) @map(name: "created_at")
-  updatedAt      DateTime @updatedAt @map(name: "updated_at")
-  targa          Targa    @relation(fields: [targa_id_fk], references: [targa_id])
-  targa_id_fk    String   @unique
-  veicolo        Veicolo  @relation(fields: [veicolo_id_fk], references: [veicolo_id])
-  veicolo_id_fk  String   @unique
-  Durata         Durata[]
+  parcheggi_id String @id @default(cuid())
+  piano        Int
+  posto        Int
 
-  User                  User?                @relation(fields: [user_id_fk], references: [id])
-  user_id_fk            String?
-  VerificationRequest   VerificationRequest? @relation(fields: [verificationRequestId], references: [id])
-  verificationRequestId String?
+  rfid_stato       Boolean
+  parcheggio_stato Boolean
+  createdAt        DateTime @default(now()) @map(name: "created_at")
+  updatedAt        DateTime @updatedAt @map(name: "updated_at")
+  Durata           Durata[]
+
   @@map(name: "parcheggi")
 }
