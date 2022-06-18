@@ -1,11 +1,9 @@
-// include the library code:
-#include <LiquidCrystal.h>
+#include <LiquidCrystal.h> // libreria per il display LCD
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-// initialize the library by associating any needed LCD interface pin
-// with the arduino pin number it is connected to
+//definisco tutti i pin del display LCD
 #define rs 12
 #define en 27
 #define d4 13
@@ -14,19 +12,20 @@
 #define d7 26
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
+//variabili per la connessione alla rete e al server
 const char* ssid = "Vodafone-23470597";
 const char* password =  "t3sztdhib3zxk6e";
 String serverName = "http://192.168.1.4:5000/posti";
+
+// variabili generiche di supporto
 int lastTime;
 int timerDelay;
 int postiPianoTerra=0;
 int postiPianoUno=0;
-
 String dataString;
 
 void setup() {
-  // set up the LCD's number of columns and rows:
-  lcd.begin(16, 2);
+  lcd.begin(16, 2); // imposto il numero di colonne e di righe del display LCD
   Serial.begin(9600);
   WiFi.begin(ssid, password);
   lastTime = 0;
@@ -38,11 +37,13 @@ void loop() {
     
     //Controllo stato connessione
     if(WiFi.status()== WL_CONNECTED){
-      dataString = httpGETRequest(serverName);
+      dataString = httpGETRequest(serverName); //salvo risposta della chiamata get al server
+      
+      //la risposta ottenuta in formato stringa la converto in formato oggetto json
       DynamicJsonDocument doc(1024);
       deserializeJson(doc, dataString);
 
-      if(doc["ErrorCode"] != -1)
+      if(doc["ErrorCode"] != -1) // se va tutto bene e non ci sono errori aggiorno i valori di posti occupati
       {
         postiPianoTerra = int(doc["posti"]["0"]);
         postiPianoUno = int(doc["posti"]["1"]);
@@ -68,6 +69,7 @@ void loop() {
       lcd.print(String(postiPianoUno)+"/50");
     }
     else {
+      // in caso di mancata connessione imposto il display con la scritta "ERRORE DI CONNESSIONE"
       Serial.println("WiFi Disconnected");
       lcd.clear();
       lcd.setCursor(0,0);
@@ -80,6 +82,7 @@ void loop() {
   
 }
 
+// funzione che effettua la chiamata get al server
 String httpGETRequest(String serverName) {
   WiFiClient client;
   HTTPClient http;
@@ -105,6 +108,8 @@ String httpGETRequest(String serverName) {
   else {
     Serial.print("Error code: ");
     Serial.println(httpResponseCode);
+    
+    //mi salvo ugualmente una risposta con un errorcode -1
     payload = "{\"ErrorCode\": -1}";
   }
   // Rilascio le risorse per la connessione
