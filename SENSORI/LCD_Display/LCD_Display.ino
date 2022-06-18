@@ -14,11 +14,13 @@
 #define d7 26
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-const char* ssid = "SESSO";
-const char* password =  "zuik2486";
-String serverName = "http://192.168.66.222:5000/posti";
+const char* ssid = "Vodafone-23470597";
+const char* password =  "t3sztdhib3zxk6e";
+String serverName = "http://192.168.1.4:5000/posti";
 int lastTime;
 int timerDelay;
+int postiPianoTerra=0;
+int postiPianoUno=0;
 
 String dataString;
 
@@ -39,13 +41,16 @@ void loop() {
       dataString = httpGETRequest(serverName);
       DynamicJsonDocument doc(1024);
       deserializeJson(doc, dataString);
-      
-      int postiPianoTerra = int(doc["posti"]["0"]);
-      int postiPianoUno = int(doc["posti"]["1"]);
 
-      Serial.println(postiPianoTerra);
-      Serial.println(postiPianoUno);
-
+      if(doc["ErrorCode"] != -1)
+      {
+        postiPianoTerra = int(doc["posti"]["0"]);
+        postiPianoUno = int(doc["posti"]["1"]);
+  
+        Serial.println(postiPianoTerra);
+        Serial.println(postiPianoUno);
+      }
+  
       //setto display per il parcheggio terra
       lcd.clear();
       lcd.setCursor(0, 0);
@@ -100,6 +105,7 @@ String httpGETRequest(String serverName) {
   else {
     Serial.print("Error code: ");
     Serial.println(httpResponseCode);
+    payload = "{\"ErrorCode\": -1}";
   }
   // Rilascio le risorse per la connessione
   http.end();
