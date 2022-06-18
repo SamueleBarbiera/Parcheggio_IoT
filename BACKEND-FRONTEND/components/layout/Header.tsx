@@ -193,7 +193,7 @@ export default function Header() {
                                                                         leaveFrom="opacity-100 translate-y-0"
                                                                         leaveTo="opacity-0 translate-y-1"
                                                                     >
-                                                                        <Popover.Panel className="z-100 absolute mt-8 w-min max-w-xs -translate-x-40 transform rounded-xl px-0 shadow-xl">
+                                                                        <Popover.Panel className="z-100 absolute mt-8 w-min max-w-xs -translate-x-52 transform rounded-xl px-0 shadow-xl">
                                                                             <div className="overflow-hidden rounded-lg shadow-lg">
                                                                                 <div className="absolute items-center justify-center rounded-lg border bg-indigo-50 px-6 py-6 shadow-xl">
                                                                                     <div className="relative my-4 items-center">
@@ -220,11 +220,6 @@ export default function Header() {
                                                                                     >
                                                                                         Sign Out
                                                                                     </button>
-                                                                                    <Link href="/auth/PannelloPersonale">
-                                                                                        <button className="text-medium mt-2 inline-flex w-full justify-center  rounded-lg bg-indigo-500 py-2 px-4 font-medium text-indigo-50 shadow-lg transition duration-200 ease-in-out hover:bg-indigo-600">
-                                                                                            Impostazioni
-                                                                                        </button>
-                                                                                    </Link>
                                                                                 </div>
                                                                             </div>
                                                                         </Popover.Panel>

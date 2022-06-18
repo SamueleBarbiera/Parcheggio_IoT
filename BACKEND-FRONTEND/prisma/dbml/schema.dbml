@@ -70,6 +70,7 @@ Table rfids {
 Table durata {
   durata_id String [pk]
   tempo_calcolato Float [not null]
+  data DateTime [not null]
   parcheggi parcheggi [not null]
   parcheggi_id_fk String [not null]
   createdAt DateTime [default: `now()`, not null]
@@ -80,7 +81,8 @@ Table parcheggi {
   parcheggi_id String [pk]
   piano Int [not null]
   posto Int [not null]
-  stato Boolean [not null]
+  rfid_stato Boolean [not null]
+  parcheggio_stato Boolean [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   Durata durata [not null]

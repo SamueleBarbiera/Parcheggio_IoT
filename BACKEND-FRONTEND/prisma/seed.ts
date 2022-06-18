@@ -52,7 +52,7 @@ async function main() {
     const rfid = await prisma.rfids.createMany({
         data: rfidData,
     })
-    console.log('🚀 - file: seed.ts - line 36 - main - user', parcheggi, parcheggi2, rfid)
+    console.log('🚀 - file: seed.ts - line 36 - main - user', parcheggi, parcheggi2,rfid)
     console.log(`Seeding finished.`)
 }
 

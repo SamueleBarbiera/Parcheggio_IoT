@@ -4,8 +4,16 @@ import { Queue } from 'bullmq'
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
     try {
-        //const arrRes: any = []
-        const result = await prisma.parcheggi.findMany({ where: { stato: false }, include: { Durata: true } })
+        const piano1 = await prisma.parcheggi.count({ where: { parcheggio_stato: false, piano: 1 } })
+        const piano2 = await prisma.parcheggi.count({ where: { parcheggio_stato: false, piano: 2 } })
+        res.json({ piano1, piano2 })
+        
+    } catch (err) {
+        res.status(500).send({ message: err })
+    }
+}
+
+//const arrRes: any = []
         // const myQueue = new Queue('myqueue', {
         //     connection: {
         //         host: 'containers-us-west-54.railway.app',
@@ -20,8 +28,3 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
         // const jobs = await myQueue.addBulk(arrRes)
         //console.log('🚀 - file: disp.ts - line 17 - handler - jobs', jobs)
         //console.log('🚀 - file: disp.ts - line 11 - handler - myQueue', myQueue)
-        res.json(result)
-    } catch (err) {
-        res.status(500).send({ message: err })
-    }
-}
