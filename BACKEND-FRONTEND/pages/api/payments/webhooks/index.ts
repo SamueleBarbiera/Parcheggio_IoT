@@ -35,7 +35,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             // On error, log and return the error message.
             if (err! instanceof Error) console.log(err)
             console.log(`❌ Error message: ${errorMessage}`)
-            res.status(400).send(`Webhook Error: ${errorMessage}`)
+            res.status(400).json(`Webhook Error: ${errorMessage}`)
             return
         }
 
@@ -57,7 +57,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         // Return a response to acknowledge receipt of the event.
-        res.json({ received: true })
+        res.status(200).json({ received: true })
     } else {
         res.setHeader('Allow', 'POST')
         res.status(405).end('Method Not Allowed')

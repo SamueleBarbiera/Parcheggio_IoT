@@ -1,16 +1,16 @@
-import React from 'react'
-import type { GetServerSideProps } from 'next'
+import React, { useEffect } from 'react'
 import Post, { PostProps } from '../components/Post'
-import prisma from '../lib/prisma'
 import Head from 'next/head'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
+import { useShoppingCart } from 'use-shopping-cart'
 
-type Props = {
-    feed: PostProps[]
-}
+const Home = () => {
+    const { clearCart } = useShoppingCart()
+    useEffect(() => {
+        clearCart()
+    }, [])
 
-const Blog: React.FC<Props> = () => {
     return (
         <>
             <Head>
@@ -20,34 +20,10 @@ const Blog: React.FC<Props> = () => {
             </Head>
 
             <Header />
-            <main className="flex h-screen items-center justify-center">
-                {/* {props.feed.map((post) => (
-                    <div key={post.id} className="post">
-                        <Post post={post} />
-                    </div>
-                ))} */}
-            </main>
+            <main className="flex h-screen items-center justify-center"></main>
             <Footer />
         </>
     )
 }
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-//     const feed = await prisma.utente.findMany({
-//         where: {
-//             published: true,
-//         },
-//         include: {
-//             author: {
-//                 select: {
-//                     name: true,
-//                 },
-//             },
-//         },
-//     })
-//     return {
-//         props: { feed },
-//     }
-// }
-
-export default Blog
+export default Home

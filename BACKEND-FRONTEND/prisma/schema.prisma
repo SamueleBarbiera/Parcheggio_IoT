@@ -61,6 +61,7 @@ model User {
   accounts Account[]
   sessions Session[]
   Rfids    Rfids?
+  Checkout Checkout?
 }
 
 model Rfids {
@@ -78,7 +79,6 @@ model Rfids {
 model Durata {
   durata_id       String    @id @default(cuid())
   tempo_calcolato Float
-  data            DateTime
   parcheggi       Parcheggi @relation(fields: [parcheggi_id_fk], references: [parcheggi_id])
   parcheggi_id_fk String
   createdAt       DateTime  @default(now()) @map(name: "created_at")
@@ -88,15 +88,29 @@ model Durata {
 }
 
 model Parcheggi {
-  parcheggi_id String @id @default(cuid())
-  piano        Int
-  posto        Int
-
+  parcheggi_id     String     @id @default(cuid())
+  piano            Int
+  posto            Int
   rfid_stato       Boolean
   parcheggio_stato Boolean
-  createdAt        DateTime @default(now()) @map(name: "created_at")
-  updatedAt        DateTime @updatedAt @map(name: "updated_at")
+  createdAt        DateTime   @default(now()) @map(name: "created_at")
+  updatedAt        DateTime   @updatedAt @map(name: "updated_at")
   Durata           Durata[]
+  Checkout         Checkout[]
 
   @@map(name: "parcheggi")
+}
+
+model Checkout {
+  checkout_id    String    @id @default(cuid())
+  costo_finale    Float
+  stato           Boolean
+  user            User?     @relation(fields: [user_id_fk], references: [id])
+  user_id_fk      String?   @unique
+  parcheggi       Parcheggi @relation(fields: [parcheggi_id_fk], references: [parcheggi_id])
+  parcheggi_id_fk String
+  createdAt       DateTime  @default(now()) @map(name: "created_at")
+  updatedAt       DateTime  @updatedAt @map(name: "updated_at")
+
+  @@map(name: "checkout")
 }

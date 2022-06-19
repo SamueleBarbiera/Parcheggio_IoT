@@ -1,25 +1,31 @@
 import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
-import prisma from '../lib/prisma'
 import axios from 'axios'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 import { AiTwotoneCar } from 'react-icons/ai'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Switch } from '@headlessui/react'
 import { fetcher } from 'content/lib/fetcher'
+import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import useSWR from 'swr'
-import { ExclamationCircleIcon, RefreshIcon } from '@heroicons/react/solid'
+import { useShoppingCart } from 'use-shopping-cart'
+import { InferGetServerSidePropsType } from "next";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-function Parcheggi() {
+function Parcheggi(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    const { clearCart } = useShoppingCart()
+
     const [piano, setPiano] = useState(false)
+    useEffect(() => {
+        clearCart()
+    }, [])
 
     const { data, error } = useSWR('/api/data/parcheggi', fetcher, {
         refreshInterval: 1000,
+        fallbackData: props.data,
     })
     console.log('🚀 - file: Parcheggi.tsx - line 24 - Parcheggi - data', data)
 
@@ -42,7 +48,7 @@ function Parcheggi() {
                             Qui puoi visualizzare lo stato dei parcheggi
                         </Switch.Description>
                     </div>
-                    <div className="flex flex-1 flex-row-reverse m-2">
+                    <div className="m-2 flex flex-1 flex-row-reverse">
                         <Switch
                             checked={piano}
                             onChange={setPiano}
@@ -120,3 +126,14 @@ function Parcheggi() {
 }
 
 export default Parcheggi
+
+export async function getServerSideProps() {
+    const res = await axios.get(`${process.env.NEXT_URL}/api/data/parcheggi`)
+    const data = await res.data
+
+    return {
+        props: {
+            data,
+        },
+    }
+}

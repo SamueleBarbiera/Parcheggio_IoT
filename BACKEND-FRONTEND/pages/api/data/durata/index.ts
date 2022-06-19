@@ -1,14 +1,11 @@
-import { Prisma } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../../lib/prisma'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
         if (req.method === 'GET') {
-            const result = await prisma.rfids.findMany({
-                include: { user: true },
-            })
-            res.status(200).json({result})
+            const durataGet = await prisma.durata.findMany({ include: { parcheggi: true } })
+            res.status(200).json({ durataGet })
         } else {
             res.status(400).json({
                 ERRORE: 'si accettano solo GET REQ',

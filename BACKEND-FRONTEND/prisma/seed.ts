@@ -3,17 +3,17 @@ import prisma from '../lib/prisma'
 
 const arrPIANO1: any = []
 for (var x = 0; x < 50; x++) {
-    arrPIANO1[x] = { posto: x, piano: 1, parcheggio_stato: Math.random() < 0.5, rfid_stato: Math.random() < 0.5 }
+    arrPIANO1[x] = { posto: x, piano: 1, parcheggio_stato:false, rfid_stato: false }
 }
 
 const arrPIANO2: any = []
 for (var x = 0; x < 50; x++) {
-    arrPIANO2[x] = { posto: x, piano: 2, parcheggio_stato: Math.random() < 0.5, rfid_stato: Math.random() < 0.5 }
+    arrPIANO2[x] = { posto: x, piano: 2, parcheggio_stato: false, rfid_stato:false}
 }
 
 const arrDurata: any = []
 for (var x = 0; x < 50; x++) {
-    arrDurata[x] = { posto: x, piano: 2, parcheggio_stato: Math.random() < 0.5, rfid_stato: Math.random() < 0.5 }
+    arrDurata[x] = { posto: x, piano: 2, parcheggio_stato: false, rfid_stato:false }
 }
 
 const rfidData: Prisma.RfidsCreateInput[] = [
