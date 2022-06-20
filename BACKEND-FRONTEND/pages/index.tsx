@@ -31,21 +31,4 @@ const Home = () => {
 
 export default Home
 
-export async function getServerSideProps() {
-    const prisma = new PrismaClient()
 
-    const findPagamento = await prisma.durata.findFirst({
-        where: { pagamento_effettuato: true },
-    })
-    if (findPagamento) {
-        return {
-            redirect: {
-                destination: '/cart/Checkout',
-            },
-        }
-    }
-
-    return {
-        props: {},
-    }
-}

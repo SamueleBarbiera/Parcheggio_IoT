@@ -9,7 +9,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const amount: number = Number((req.body.amount.totalPrice * 100).toString().slice(0, 6))
-    const cartdet: any = Object.entries(req.body.data.cartDetails).map((e) => e[1])
 
     if (req.method === 'POST') {
         try {
@@ -29,13 +28,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         quantity: 1,
                     },
                 ],
+                discounts: [
+                    {
+                        coupon: 'DTXLlBYe',
+                    },
+                ],
                 mode: 'payment',
                 success_url: `${req.headers.origin}/RisultatoPagamento?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${req.headers.origin}/CancelPagamento`,
             }
             const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create(session)
             res.status(200).json(checkoutSession)
-            console.log('🚀 - file: cart.ts - line 38 - handler - session', checkoutSession)
         } catch (err) {
             console.log('❌ Payment failed: ', err.message)
             res.status(500).json({ statusCode: 500, message: err.message })

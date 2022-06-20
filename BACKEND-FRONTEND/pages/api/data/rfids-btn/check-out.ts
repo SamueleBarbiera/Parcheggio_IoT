@@ -44,11 +44,10 @@ const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
                 const avviPagamento = await prisma.durata.update({
                     where: {
                         durata_id: trovaPagamento?.durata_id,
-                        
                     },
                     data: { pagamento_effettuato: true },
                 })
-                res.status(200).json({ 'Pagamento online avviato': avviPagamento })
+                res.redirect(302, 'cart/Checkout')
             } else {
                 res.status(200).json('Check-out effettuato senza rfid')
             }
