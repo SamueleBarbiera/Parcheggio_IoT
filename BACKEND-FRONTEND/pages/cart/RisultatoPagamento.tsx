@@ -55,9 +55,6 @@ const RisultatoPagamento: NextPage = () => {
                         </h2>
                     </div>
                 )}
-                {/* 
-                    <h2>Status: {data?.payment_intent?.status ?? 'loading...'}</h2>
-                    <p>{data}</p>*/}
             </div>
             <Footer />
         </>

@@ -5,7 +5,8 @@ import * as yup from 'yup'
 
 const schema = yup.object().shape({
     rfid_stato: yup.boolean().required(),
-    minuti_sosta: yup.number().required(),
+    piano: yup.number().required(),
+    posto: yup.number().required(),
 })
 
 const validate = withValidation({
@@ -17,7 +18,8 @@ const validate = withValidation({
 interface ExtendedNextApiRequest extends NextApiRequest {
     body: {
         rfid_stato: boolean
-        minuti_sosta: number
+        piano: number
+        posto: number
     }
 }
 
@@ -26,12 +28,14 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 // del posto parcheggio generata Random
 
 const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
-    const { rfid_stato, minuti_sosta } = req.body
+    const { rfid_stato, piano, posto } = req.body
 
     try {
         if (req.method === 'POST') {
             const findParcheggio: any = await prisma.parcheggi.findFirst({
                 where: {
+                    piano: piano,
+                    posto: posto,
                     parcheggio_stato: false,
                 },
             })
@@ -41,17 +45,10 @@ const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
                 },
                 data: { parcheggio_stato: true, rfid_stato: rfid_stato },
             })
-
-            const AggiornamentoDurata = await prisma.durata.create({
-                data: {
-                    tempo_calcolato: minuti_sosta,
-                    parcheggi_id_fk: Occupazioneparcheggi.parcheggi_id,
-                },
-            })
-            res.status(200).json({ Occupazioneparcheggi, AggiornamentoDurata })
+            res.status(200).json({ Occupazioneparcheggi })
         } else {
             res.status(400).json({
-                ERRORE: 'si accettano solo PATCH REQ',
+                ERRORE: 'si accettano solo POST REQ',
             })
         }
     } catch (err) {

@@ -4,26 +4,16 @@ import { useEffect, useState } from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
 import { fetchPostJSON } from '../../content/utils/api-helpers'
 
-function Checkout(props: any) {
-    console.log('🚀 - file: Checkout.tsx - line 7 - Checkout - props', props)
+function Checkout() {
     const { addItem, cartDetails, totalPrice, clearCart, redirectToCheckout } = useShoppingCart()
     const [loading, setLoading] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
-    const products = [
-        {
-            name: 'Parcheggio',
-            description: 'Acquisto del biglietto',
-            id: props.ultimoAcquisto.checkout_id,
-            price: props.ultimoAcquisto.costo_finale,
-            currency: 'EUR',
-        },
-    ]
 
     const handleCheckout: any = async () => {
         setLoading(true)
         setErrorMessage('')
 
-        const response = await fetchPostJSON(`/api/checkout_sessions/cart`, { cartDetails }, { totalPrice })
+        const response = await fetchPostJSON(`/api/payments/checkout_sessions/cart`, { cartDetails }, { totalPrice })
 
         if (response.statusCode > 399) {
             console.error(response.message)
@@ -36,9 +26,7 @@ function Checkout(props: any) {
     }
 
     useEffect(() => {
-        addItem(products)
         handleCheckout()
-        clearCart()
     }, [])
 
     return (
@@ -68,14 +56,3 @@ function Checkout(props: any) {
 }
 
 export default Checkout
-
-export async function getServerSideProps() {
-    const prisma = new PrismaClient()
-    const ultimoAcquisto = await prisma.checkout.findFirst({ take: -1 })
-
-    return {
-        props: {
-            ultimoAcquisto,
-        },
-    }
-}

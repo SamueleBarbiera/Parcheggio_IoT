@@ -7,6 +7,6 @@ export async function fetcher(url: string, options = {}) {
     } else {
         res = await fetch(url.toString(), options)
     }
-    const data = await res.status(200).json({)
+    const data = await res.json()
     return data
 }

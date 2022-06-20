@@ -3,7 +3,7 @@ import axios from 'axios'
 export async function fetchGetJSON(url: string) {
     try {
         const res = await axios.get(url)
-        console.log("🚀 - file: api-helpers.ts - line 6 - fetchGetJSON - res", res.data)
+        console.log('🚀 - file: api-helpers.ts - line 6 - fetchGetJSON - res', res.data)
         return res.data
     } catch (err) {
         if (err instanceof Error) {
@@ -26,7 +26,7 @@ export async function fetchPostJSON(url: string, data?: {}, amount?: any) {
             },
             redirect: 'follow', // manual, *follow, error
             referrerPolicy: 'no-referrer', // no-referrer, *client
-            body: JSON.stringify({data, amount}), // body data type must match "Content-Type" header
+            body: JSON.stringify({ data, amount }), // body data type must match "Content-Type" header
         })
         return await response.json()
     } catch (err) {

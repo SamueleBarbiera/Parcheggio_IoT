@@ -61,7 +61,6 @@ model User {
   accounts Account[]
   sessions Session[]
   Rfids    Rfids?
-  Checkout Checkout?
 }
 
 model Rfids {
@@ -77,12 +76,14 @@ model Rfids {
 }
 
 model Durata {
-  durata_id       String    @id @default(cuid())
-  tempo_calcolato Float
-  parcheggi       Parcheggi @relation(fields: [parcheggi_id_fk], references: [parcheggi_id])
-  parcheggi_id_fk String
-  createdAt       DateTime  @default(now()) @map(name: "created_at")
-  updatedAt       DateTime  @updatedAt @map(name: "updated_at")
+  durata_id            String    @id @default(cuid())
+  tempo                Float
+  costo_finale         Float
+  pagamento_effettuato Boolean
+  parcheggi            Parcheggi @relation(fields: [parcheggi_id_fk], references: [parcheggi_id])
+  parcheggi_id_fk      String
+  createdAt            DateTime  @default(now()) @map(name: "created_at")
+  updatedAt            DateTime  @updatedAt @map(name: "updated_at")
 
   @@map(name: "durata")
 }
@@ -96,21 +97,6 @@ model Parcheggi {
   createdAt        DateTime   @default(now()) @map(name: "created_at")
   updatedAt        DateTime   @updatedAt @map(name: "updated_at")
   Durata           Durata[]
-  Checkout         Checkout[]
 
   @@map(name: "parcheggi")
-}
-
-model Checkout {
-  checkout_id    String    @id @default(cuid())
-  costo_finale    Float
-  stato           Boolean
-  user            User?     @relation(fields: [user_id_fk], references: [id])
-  user_id_fk      String?   @unique
-  parcheggi       Parcheggi @relation(fields: [parcheggi_id_fk], references: [parcheggi_id])
-  parcheggi_id_fk String
-  createdAt       DateTime  @default(now()) @map(name: "created_at")
-  updatedAt       DateTime  @updatedAt @map(name: "updated_at")
-
-  @@map(name: "checkout")
 }

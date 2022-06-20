@@ -12,8 +12,19 @@ export const myLoader = ({ src, width, quality }: any) => {
 export default function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Provider session={pageProps.session}>
-            <CartProvider cartMode="checkout-session" stripe={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string} currency={CURRENCY}>
-                <NextNProgress nonce="my-nonce" color="#3b0067" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+            <CartProvider
+                cartMode="checkout-session"
+                stripe={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string}
+                currency={CURRENCY}
+            >
+                <NextNProgress
+                    nonce="my-nonce"
+                    color="#3b0067"
+                    startPosition={0.3}
+                    stopDelayMs={200}
+                    height={3}
+                    showOnShallow={true}
+                />
                 <Component {...pageProps} />
             </CartProvider>
         </Provider>

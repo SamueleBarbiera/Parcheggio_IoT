@@ -9,25 +9,97 @@ import { fetcher } from 'content/lib/fetcher'
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import useSWR from 'swr'
 import { useShoppingCart } from 'use-shopping-cart'
-import { InferGetServerSidePropsType } from "next";
+import { DebugCart } from 'use-shopping-cart'
+import { CartActions, CartEntry as ICartEntry } from 'use-shopping-cart/core'
+
+import { formatCurrencyString, Product } from 'use-shopping-cart/core'
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-function Parcheggi(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    const { clearCart } = useShoppingCart()
 
+function Cart() {
+    const cart = useShoppingCart()
+    const { removeItem, cartDetails, clearCart, formattedTotalPrice } = cart
+
+    const cartEntries = Object.values(cartDetails ?? {}).map((entry) => (
+        <div>
+            <h3>{entry.name}</h3>
+            {entry.image ? <img width={100} src={entry.image} alt={entry.description} /> : null}
+            <p>
+                {entry.quantity} x {formatCurrencyString({ value: entry.price, currency: 'EUR' })} ={' '}
+                {entry.formattedValue}
+            </p>
+            <button onClick={() => removeItem(entry.id)}>Remove</button>
+        </div>
+    ))
+
+    return (
+        <div>
+            <h2>Cart</h2>
+            <p>Total: {formattedTotalPrice}</p>
+            {cartEntries.length === 0 ? <p>Cart is empty.</p> : null}
+            {cartEntries.length > 0 ? (
+                <>
+                    <button onClick={() => clearCart()}>Clear cart</button>
+                    {cartEntries}
+                </>
+            ) : null}
+        </div>
+    )
+}
+
+const products: Product[] = [
+    {
+        name: 'Sunglasses',
+        id: 'price_1GwzfVCNNrtKkPVCh2MVxRkO',
+        price: 15,
+        image: 'https://files.stripe.com/links/fl_test_FR8EZTS7UDXE0uljMfT7hwmH',
+        currency: 'EUR',
+        description: 'A pair of average black sunglasses.',
+    },
+    {
+        name: '3 Stripe Streak Scoop Neck Flowy T-Shirt',
+        id: 'price_OkRxVM2hCVPkKtrNNCVfzwG1',
+        price: 30,
+        image: 'https://static.musictoday.com/store/bands/4806/product_600/5QCTBL052.jpg',
+        description:
+            'A black scoop neck flowy t-shirt with 3 bright yellow strips behind the words Black Lives Matter.',
+        currency: 'EUR',
+    },
+]
+
+function ProductList() {
+    const { addItem } = useShoppingCart()
+
+    return (
+        <div>
+            <h2>Products</h2>
+            {products.map((product: Product) => (
+                <div key={product.id}>
+                    <h3>{product.name}</h3>
+                    {product.image ? <img width={300} src={product.image} alt={product.description} /> : null}
+                    <p>{formatCurrencyString({ value: product.price, currency: 'EUR' })}</p>
+                    <button onClick={() => addItem(product)} aria-label={`Add one ${product.name} to your cart.`}>
+                        Add 1 to Cart
+                    </button>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+function Parcheggi() {
+    const { clearCart, addItem, cartDetails, totalPrice, checkoutSingleItem } = useShoppingCart()
     const [piano, setPiano] = useState(false)
-    useEffect(() => {
-        clearCart()
-    }, [])
-
+    function toFixedIfNecessary(value: any, dp: number | undefined) {
+        return +parseFloat(value).toFixed(dp)
+    }
+    const cartdet: any = Object.entries(cartDetails).map((e) => e[1])
     const { data, error } = useSWR('/api/data/parcheggi', fetcher, {
         refreshInterval: 1000,
-        fallbackData: props.data,
     })
-    console.log('🚀 - file: Parcheggi.tsx - line 24 - Parcheggi - data', data)
 
     return (
         <>
@@ -67,7 +139,20 @@ function Parcheggi(props: InferGetServerSidePropsType<typeof getServerSideProps>
                         </Switch>
                     </div>
                 </Switch.Group>
-
+                <div style={{ display: 'grid', placeItems: 'center' }}>
+                    <h1>Grocery+ Store</h1>
+                    <ProductList />
+                    <br />
+                    <hr
+                        style={{
+                            background: 'grey',
+                            height: 1,
+                            width: '100%',
+                            maxWidth: '20rem',
+                        }}
+                    />
+                    <Cart />
+                </div>
                 {data ? (
                     <>
                         {piano && (
@@ -127,13 +212,17 @@ function Parcheggi(props: InferGetServerSidePropsType<typeof getServerSideProps>
 
 export default Parcheggi
 
-export async function getServerSideProps() {
-    const res = await axios.get(`${process.env.NEXT_URL}/api/data/parcheggi`)
-    const data = await res.data
+// export async function getServerSideProps() {
+//     const prisma = new PrismaClient()
 
-    return {
-        props: {
-            data,
-        },
-    }
-}
+//     const findPagamento = await prisma.durata.findFirst({
+//         where: { pagamento_effettuato: true },
+//     })
+//     if (findPagamento) {
+//         return {
+//             redirect: {
+//                 destination: '/cart/Checkout',
+//             },
+//         }
+//     }
+// }

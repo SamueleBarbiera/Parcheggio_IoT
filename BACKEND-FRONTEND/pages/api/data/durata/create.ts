@@ -5,7 +5,8 @@ import * as yup from 'yup'
 
 const schema = yup.object().shape({
     tempoGet: yup.number().required(),
-    minuti_sosta: yup.number().required(),
+    piano: yup.number().required(),
+    posto: yup.number().required(),
 })
 
 const validate = withValidation({
@@ -16,28 +17,26 @@ const validate = withValidation({
 
 interface ExtendedNextApiRequest extends NextApiRequest {
     body: {
-        n_parcheggio: number
+        piano: number
+        posto: number
         tempoGet: number
     }
 }
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-    const { tempoGet, n_parcheggio } = req.body
+const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
+    const { tempoGet, piano, posto } = req.body
     try {
         if (req.method === 'POST') {
-            const emptyDurata = await prisma.durata.findFirst({
-                where: { parcheggi_id_fk: '' },
-            })
             const parking = await prisma.parcheggi.findFirst({
-                take: -1,
-                where: { parcheggio_stato: true },
+                where: { parcheggio_stato: true, piano: piano, posto: posto },
             })
+            const calcolo = tempoGet * 5
             const Data = await prisma.durata.create({
-                where: { rfid_id: emptyDurata!.durata_id },
                 data: {
-                    tempo_calcolato: tempoGet,
-                    parcheggi_id_fk: parking?.parcheggi_id,
-                    
+                    costo_finale: calcolo,
+                    pagamento_effettuato: false,
+                    tempo: tempoGet,
+                    parcheggi_id_fk: parking?.parcheggi_id.toString()!,
                 },
             })
             res.status(200).json({ Data })
@@ -50,3 +49,5 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         res.status(500).json({ message: err.message })
     }
 }
+
+export default validate(handle)

@@ -10,16 +10,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const amount: number = Number((req.body.amount.totalPrice * 100).toString().slice(0, 6))
     const cartdet: any = Object.entries(req.body.data.cartDetails).map((e) => e[1])
-    // let img
-    // {
-    //     cartdet.map((image: any) => (img = image.image.data.map((image: any) => `${process.env.NEXT_URL}${image.url}`)))
-    // }
-    // console.log('🚀 - file: cart.ts - line 57 - handler - img', img)
+    console.log('🚀 - file: cart.ts - line 13 - handler - cartdet', cartdet)
 
     if (req.method === 'POST') {
         try {
             // Create Checkout Sessions from body params.
-            const params: Stripe.Checkout.SessionCreateParams = {
+            let session: Stripe.Checkout.SessionCreateParams = {
                 submit_type: 'pay',
                 payment_method_types: ['card'],
                 billing_address_collection: 'auto',
@@ -28,19 +24,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 },
                 line_items: [
                     {
-                        // quantity: 1,
-                        // price_data: {
-                        //     currency: 'EUR',
-                        //     unit_amount: amount,
-                        //     product_data: {
-                        //         name: 'Costo totale',
-                        //         images: img,
-                        //     },
-                        // },
-                        name: 'Costo totale',
-                        price: cartdet.id,
-                        currency: 'EUR',
                         amount: amount,
+                        currency: 'EUR',
+                        name: 'Costo totale',
                         quantity: 1,
                     },
                 ],
@@ -48,12 +34,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 success_url: `${req.headers.origin}/RisultatoPagamento?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${req.headers.origin}/CancelPagamento`,
             }
-            //console.log('🚀 - file: cart.ts - line 48 - handler - params', params)
-            const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create(params)
-            res.status(200).json(checkoutSession)
+            const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create(session)
+            //console.log('🚀 - file: cart.ts - line 39 - handler - checkoutSession', checkoutSession)
+            res.redirect(302, checkoutSession.url!)
         } catch (err) {
-            console.log('❌ Payment failed: ', err)
-            res.status(500).json({ statusCode: 500, message: err })
+            console.log('❌ Payment failed: ', err.message)
+            res.status(500).json({ statusCode: 500, message: err.message })
         }
     } else {
         res.setHeader('Allow', 'POST')
