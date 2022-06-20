@@ -1,11 +1,12 @@
 import { ExclamationCircleIcon, RefreshIcon } from '@heroicons/react/solid'
 import { PrismaClient } from '@prisma/client'
+import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
 import { fetchPostJSON } from '../../content/utils/api-helpers'
 
 function Checkout() {
-    const { addItem, cartDetails, totalPrice, clearCart, redirectToCheckout } = useShoppingCart()
+    const { cartDetails, totalPrice, redirectToCheckout } = useShoppingCart()
     const [loading, setLoading] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
 
@@ -22,7 +23,11 @@ function Checkout() {
             return
         }
 
+        console.log('🚀 - file: Checkout.tsx - line 18 - consthandleCheckout:any= - response', response)
+
         redirectToCheckout({ sessionId: response.id })
+        // const res = await axios.get('/api/payments/checkout_sessions/cart')
+        window.location = response.url
     }
 
     useEffect(() => {
