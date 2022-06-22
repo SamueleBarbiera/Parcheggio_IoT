@@ -1,8 +1,10 @@
+/* eslint-disable indent */
+/* eslint-disable import/no-anonymous-default-export */
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import prisma from '../../../lib/prisma'
 import Providers from 'next-auth/providers'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 const GOOGLE_AUTHORIZATION_URL =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
@@ -74,9 +76,16 @@ export const options: NextAuthOptions = {
         async jwt(token, user, account) {
             const isSignIn = user ? true : false
             if (isSignIn) {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/${account!.provider}/callback?access_token=${account!?.access_token}`)
+                const response = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/auth/${account!.provider}/callback?access_token=${
+                        account!?.access_token
+                    }`
+                )
                 const data = await response.json()
-                ;(token.accessToken = account!.accessToken), (token.accessTokenExpires = account!.expires_in!), (token.refreshToken = account!.refresh_token), (token.jwt = data.jwt)
+                ;(token.accessToken = account!.accessToken),
+                    (token.accessTokenExpires = account!.expires_in!),
+                    (token.refreshToken = account!.refresh_token),
+                    (token.jwt = data.jwt)
                 token.id = data.user.id
                 console.log(data, token)
             }
@@ -87,7 +96,11 @@ export const options: NextAuthOptions = {
             }
 
             // Access token has expired, try to update it
-            return await refreshAccessToken(token, String(process.env.GOOGLE_CLIENT_ID), String(process.env.GOOGLE_CLIENT_SECRET))
+            return await refreshAccessToken(
+                token,
+                String(process.env.GOOGLE_CLIENT_ID),
+                String(process.env.GOOGLE_CLIENT_SECRET)
+            )
         },
     },
     pages: {
