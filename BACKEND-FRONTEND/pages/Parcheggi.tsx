@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
-import axios from 'axios'
 import Head from 'next/head'
 import { AiTwotoneCar } from 'react-icons/ai'
 import { useEffect, useState } from 'react'
@@ -16,7 +15,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-function Parcheggi(props: any) {
+export default function Parcheggi(props:any) {
     const Router = useRouter()
     const { clearCart } = useShoppingCart()
     const [piano, setPiano] = useState(false)
@@ -136,11 +135,9 @@ function Parcheggi(props: any) {
     }
 }
 
-export default Parcheggi
-
 export async function getServerSideProps() {
-    const res = await axios.get(`${process.env.NEXT_URL}/api/data/parcheggi`)
-    const data = await res.data
+    const res = await fetch(`${process.env.NEXT_URL}/api/data/parcheggi`)
+    const data = await res.json()
 
     return {
         props: {
