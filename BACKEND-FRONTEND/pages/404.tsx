@@ -1,10 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-html-link-for-pages */
-import Header from '../components/layout/Header'
-import Footer from '../components/layout/Footer'
 import Head from 'next/head'
 
-export default function FourOhFour(props) {
+export default function FourOhFour() {
     return (
         <>
             <Head>

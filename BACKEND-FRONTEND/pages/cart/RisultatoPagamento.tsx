@@ -1,4 +1,4 @@
-import { NextPage, InferGetServerSidePropsType } from 'next'
+
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import useSWR from 'swr'
@@ -11,7 +11,7 @@ import Footer from '@/components/layout/Footer'
 import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 
-const RisultatoPagamento: NextPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const RisultatoPagamento = () => {
     const router = useRouter()
     const { clearCart } = useShoppingCart()
     const { data, error } = useSWR(
@@ -24,6 +24,7 @@ const RisultatoPagamento: NextPage = (props: InferGetServerSidePropsType<typeof 
             shootFireworks()
             clearCart()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
 
     return (

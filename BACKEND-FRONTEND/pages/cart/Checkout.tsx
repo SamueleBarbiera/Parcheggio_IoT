@@ -1,19 +1,18 @@
 import { ExclamationCircleIcon, RefreshIcon } from '@heroicons/react/solid'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fetchPostJSON } from '../../content/utils/api-helpers'
-import { useShoppingCart, formatCurrencyString } from 'use-shopping-cart'
-import { Product, CartEntry as ICartEntry } from 'use-shopping-cart/core'
+import { useShoppingCart } from 'use-shopping-cart'
+import { Product } from 'use-shopping-cart/core'
 import { useRouter } from 'next/router'
 import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
 import { LockClosedIcon } from '@heroicons/react/solid'
-import { getSession, useSession } from 'next-auth/client'
+import { getSession } from 'next-auth/client'
 import Head from 'next/head'
-import { InferGetServerSidePropsType } from 'next'
 
-function Checkout(_props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function Checkout() {
     const router = useRouter()
-    const { cartDetails, totalPrice, clearCart, addItem, redirectToCheckout } = useShoppingCart()
+    const { cartDetails, totalPrice, clearCart,  redirectToCheckout } = useShoppingCart()
     const [loading, setLoading] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     let costo_finale: any = Number((router.query!.costo_finale! as any).replace(/\D/g, ''))
@@ -77,6 +76,7 @@ function Checkout(_props: InferGetServerSidePropsType<typeof getServerSideProps>
         setLoading(true)
         setErrorMessage('')
 
+        // eslint-disable-next-line quotes
         const response = await fetchPostJSON(`/api/payments/checkout_sessions/cart`, { cartDetails }, { totalPrice })
 
         if (response.statusCode > 399) {

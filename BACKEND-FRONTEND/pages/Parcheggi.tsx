@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
 import axios from 'axios'
@@ -8,7 +9,6 @@ import { Switch } from '@headlessui/react'
 import { fetcher } from 'content/lib/fetcher'
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import useSWR from 'swr'
-import { InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import { useShoppingCart } from 'use-shopping-cart'
 
@@ -16,7 +16,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-function Parcheggi(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function Parcheggi(props: any) {
     const Router = useRouter()
     const { clearCart } = useShoppingCart()
     const [piano, setPiano] = useState(false)

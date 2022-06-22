@@ -3,12 +3,11 @@ import Header from '../../components/layout/Header'
 import LoginForm from '../../components/auth/LoginForm'
 import Head from 'next/head'
 import { getProviders, getSession } from 'next-auth/client'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { PrismaClient } from '@prisma/client'
 import { useShoppingCart } from 'use-shopping-cart'
 import { useEffect } from 'react'
 
-export default function Login({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Login({ providers }: any) {
     const { clearCart } = useShoppingCart()
 
     useEffect(() => {

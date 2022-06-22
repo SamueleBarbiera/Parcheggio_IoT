@@ -1,17 +1,14 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable no-unused-vars */
-import { ChartBarIcon, RefreshIcon, ShieldCheckIcon, ViewGridIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import {  RefreshIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Dialog, Popover, Transition } from '@headlessui/react'
 import { FaRegUser, FaParking } from 'react-icons/fa'
-import { MdOutlineShoppingBag } from 'react-icons/md'
-import { useSession, signIn, signOut } from 'next-auth/client'
-import { Fragment, useState, useEffect } from 'react'
+import { useSession,  signOut } from 'next-auth/client'
+import { Fragment, useState } from 'react'
 import { myLoader } from '../../pages/_app'
-import { BiTrendingUp, BiHomeAlt, BiBarcodeReader } from 'react-icons/bi'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useShoppingCart } from 'use-shopping-cart'
-import CartSummary from '../cart/CartSummary'
 import { AiTwotoneCar } from 'react-icons/ai'
 
 const navigation = {

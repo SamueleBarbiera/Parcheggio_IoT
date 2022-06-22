@@ -6,7 +6,7 @@ import { getSession, useSession } from 'next-auth/client'
 import Head from 'next/head'
 import { InferGetServerSidePropsType } from "next";
 
-function CancelPagamento(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function CancelPagamento() {
     return (
         <>
             <Head>
