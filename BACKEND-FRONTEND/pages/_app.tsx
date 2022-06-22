@@ -1,6 +1,6 @@
 import { Provider } from 'next-auth/client'
 import type { AppProps } from 'next/app'
-import '../public/styles.css'
+import '../styles/build.css'
 
 import NextNProgress from 'nextjs-progressbar'
 import { CartProvider } from 'use-shopping-cart'

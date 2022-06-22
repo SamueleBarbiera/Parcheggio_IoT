@@ -7,7 +7,7 @@
     "author": "BUGSEATING",
     "scripts": {
         "dev": "next dev -p 3000",
-        "build": "npx tailwindcss -o public/styles.css --minify && next build && next export",
+        "build": "npx tailwindcss -o styles/build.css --minify && next build && next export",
         "start": "node_modules/next/dist/bin/next start -p 3000"
     },
     "dependencies": {
