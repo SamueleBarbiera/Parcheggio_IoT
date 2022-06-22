@@ -7,7 +7,6 @@ import { useSession, signOut } from 'next-auth/client'
 import { Fragment, useState } from 'react'
 import { myLoader } from '../../pages/_app'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useShoppingCart } from 'use-shopping-cart'
 import { AiTwotoneCar } from 'react-icons/ai'
 
@@ -229,11 +228,11 @@ export default function Header() {
                                                     <RefreshIcon className="mr-4 h-6 w-6 flex-shrink-0 animate-spin text-indigo-800 " />
                                                 ) : (
                                                     <>
-                                                        <Link href="/auth/Login">
+                                                        <a href="/auth/Login">
                                                             <button className="mr-4 rounded-lg bg-indigo-500 py-1 px-2 text-indigo-50 transition duration-200 ease-in-out hover:bg-indigo-600">
                                                                 Accedi
                                                             </button>
-                                                        </Link>
+                                                        </a>
                                                     </>
                                                 )}
                                                 {/* Cart 
