@@ -25,16 +25,16 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 
 const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
     const { tempoGet, piano, posto } = req.body
-    let calcolo = 0
-    const DataNow: any = new Date()
-    let data_entrata: any = Date.now() - 24 * 60 * 60 * 1000
-    data_entrata = new Date(data_entrata).toISOString()
-    let yesterday = DataNow.setDate(DataNow.getDate() - 7)
-    yesterday = new Date(yesterday).toISOString()
-    function randomIntFromInterval(min: number, max: number) {
-        // min and max included
-        return Math.floor(Math.random() * (max - min + 1) + min)
-    }
+    //let calcolo = 0
+    //const DataNow: any = new Date()
+    //let data_entrata: any = Date.now() - 24 * 60 * 60 * 1000
+    //data_entrata = new Date(data_entrata).toISOString()
+    //let yesterday = DataNow.setDate(DataNow.getDate() - 7)
+    //yesterday = new Date(yesterday).toISOString()
+    // function randomIntFromInterval(min: number, max: number) {
+    //     // min and max included
+    //     return Math.floor(Math.random() * (max - min + 1) + min)
+    // }
 
     try {
         if (req.method === 'POST') {

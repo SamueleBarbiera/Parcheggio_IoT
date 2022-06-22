@@ -42,7 +42,7 @@ export const getServerSideProps = async ({ req }: any) => {
                 },
             })
 
-            const data = await prisma.rfids.update({
+            await prisma.rfids.update({
                 where: { rfid_id: emptyRfid!.rfid_id },
                 data: { user_id_fk: userId?.id, stato: true },
             })

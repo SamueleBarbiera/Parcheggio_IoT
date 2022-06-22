@@ -1,6 +1,5 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import prisma from '../../../lib/prisma'
-import Adapters from 'next-auth/adapters'
 import Providers from 'next-auth/providers'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { NextApiRequest, NextApiResponse } from 'next'

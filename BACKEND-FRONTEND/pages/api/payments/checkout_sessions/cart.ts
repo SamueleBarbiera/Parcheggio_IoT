@@ -1,6 +1,4 @@
-import { validateCartItems } from 'use-shopping-cart/utilities/serverless'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { useEffect, useState } from 'react'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {

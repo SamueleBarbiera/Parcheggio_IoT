@@ -4,6 +4,7 @@
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
+    "ignorePatterns": ["", "**/*.js"],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
