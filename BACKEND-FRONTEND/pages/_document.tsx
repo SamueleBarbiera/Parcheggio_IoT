@@ -24,8 +24,8 @@ export default function Document() {
 
                 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
                 <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-                <link rel="manifest" href="../public//manifest.webmanifest" />
-                <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5" />
+                <link rel="manifest" href="../public/manifest.webmanifest" />
+                <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" />
                 <link rel="shortcut icon" href="/favicon.ico" />
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
 

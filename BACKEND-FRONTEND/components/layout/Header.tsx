@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable no-unused-vars */
 import { RefreshIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
