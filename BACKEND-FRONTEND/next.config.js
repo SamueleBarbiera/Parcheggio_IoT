@@ -8,6 +8,8 @@ module.exports = withPWA({
     },
     reactStrictMode: true,
     swcMinify: true,
+
+    ignoreBuildErrors: true,
     images: {
         domains: ['lh3.googleusercontent.com'],
         formats: ['image/avif', 'image/webp'],
