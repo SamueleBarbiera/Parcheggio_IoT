@@ -1,6 +1,6 @@
 const withPWA = require('next-pwa')
-const withCss = require('@zeit/next-css')
 const withPreact = require('next-plugin-preact')
+const withCss = require('@zeit/next-css')
 
 module.exports = withPWA(
     withPreact(
