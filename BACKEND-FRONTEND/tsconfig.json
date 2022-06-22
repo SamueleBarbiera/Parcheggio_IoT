@@ -29,9 +29,8 @@
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "stripInternal": true,
-
+        "jsxImportSource": "preact",
         "useDefineForClassFields": true,
-
         "useUnknownInCatchVariables": false,
         "baseUrl": ".",
         "paths": {
