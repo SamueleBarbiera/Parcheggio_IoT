@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Head from 'next/head'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import { fetcher } from 'content/lib/fetcher'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect } from 'preact/hooks'
 import { useShoppingCart } from 'use-shopping-cart'
 
 const Home = () => {

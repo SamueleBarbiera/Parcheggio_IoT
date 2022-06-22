@@ -9,6 +9,8 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "no-unused-vars": 0,
+        "@typescript-eslint/no-unused-vars": 0,
         "indent": ["error", 4],
         "key-spacing": [
             "error",

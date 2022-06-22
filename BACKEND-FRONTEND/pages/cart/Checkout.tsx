@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon, RefreshIcon } from '@heroicons/react/solid'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'preact/hooks'
 import { fetchPostJSON } from '../../content/utils/api-helpers'
 import { useShoppingCart } from 'use-shopping-cart'
 import { Product } from 'use-shopping-cart/core'
@@ -9,10 +9,12 @@ import Header from '@/components/layout/Header'
 import { LockClosedIcon } from '@heroicons/react/solid'
 import { getSession } from 'next-auth/client'
 import Head from 'next/head'
+import { InferGetServerSidePropsType } from 'next'
+import React from 'react'
 
-function Checkout() {
+function Checkout(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const router = useRouter()
-    const { cartDetails, totalPrice, clearCart,  redirectToCheckout } = useShoppingCart()
+    const { cartDetails, totalPrice, clearCart, redirectToCheckout } = useShoppingCart()
     const [loading, setLoading] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     let costo_finale: any = Number((router.query!.costo_finale! as any).replace(/\D/g, ''))

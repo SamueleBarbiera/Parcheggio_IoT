@@ -1,6 +1,5 @@
-
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect } from 'preact/hooks'
 import useSWR from 'swr'
 import { useShoppingCart } from 'use-shopping-cart'
 import { shootFireworks } from '../../content/lib/Utils'
@@ -10,8 +9,9 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { getSession } from 'next-auth/client'
 import Head from 'next/head'
+import { InferGetServerSidePropsType } from 'next'
 
-const RisultatoPagamento = () => {
+const RisultatoPagamento = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const router = useRouter()
     const { clearCart } = useShoppingCart()
     const { data, error } = useSWR(
@@ -24,7 +24,7 @@ const RisultatoPagamento = () => {
             shootFireworks()
             clearCart()
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
 
     return (

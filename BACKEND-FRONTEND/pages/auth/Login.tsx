@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import LoginForm from '../../components/auth/LoginForm'
@@ -5,7 +6,7 @@ import Head from 'next/head'
 import { getProviders, getSession } from 'next-auth/client'
 import { PrismaClient } from '@prisma/client'
 import { useShoppingCart } from 'use-shopping-cart'
-import { useEffect } from 'react'
+import { useEffect } from 'preact/hooks'
 
 export default function Login({ providers }: any) {
     const { clearCart } = useShoppingCart()
