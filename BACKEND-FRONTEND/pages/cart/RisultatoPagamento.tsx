@@ -1,4 +1,4 @@
-import { NextPage } from 'next'
+import { NextPage, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import useSWR from 'swr'
@@ -11,10 +11,13 @@ import Footer from '@/components/layout/Footer'
 import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 
-const RisultatoPagamento: NextPage = () => {
+const RisultatoPagamento: NextPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const router = useRouter()
     const { clearCart } = useShoppingCart()
-    const { data, error } = useSWR(() => (router.query.session_id ? `/api/checkout_sessions/${router.query.session_id}` : null), fetchGetJSON)
+    const { data, error } = useSWR(
+        () => (router.query.session_id ? `/api/checkout_sessions/${router.query.session_id}` : null),
+        fetchGetJSON
+    )
 
     useEffect(() => {
         if (data) {
@@ -27,7 +30,7 @@ const RisultatoPagamento: NextPage = () => {
         <>
             <Head>
                 <title>Risultato Pagamento</title>
-                <link rel="icon" href="/question-solid.svg" />
+                <link rel="icon" href="/icon-512x512.png" />
                 <meta charSet="utf-8" className="next-head" />
             </Head>
             <Header />
@@ -36,7 +39,9 @@ const RisultatoPagamento: NextPage = () => {
                     <div className="mx-auto w-fit rounded-lg bg-red-200 py-4 px-4 shadow-xl">
                         <div className="flex flex-col items-center space-x-1 text-4xl font-semibold">
                             <ExclamationCircleIcon className="m-2 h-12 w-12 flex-shrink-0 rounded-full bg-red-100 py-2 text-red-600 " />
-                            <p className="m-2 text-lg text-red-500">Qualcosa è andato storto, non preccuparti il pagamento non è andato a buon fine!</p>
+                            <p className="m-2 text-lg text-red-500">
+                                Qualcosa è andato storto, non preccuparti il pagamento non è andato a buon fine!
+                            </p>
                         </div>
                     </div>
                 ) : !data ? (

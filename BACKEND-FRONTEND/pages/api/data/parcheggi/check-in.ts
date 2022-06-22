@@ -4,7 +4,6 @@ import { withValidation } from 'next-validations'
 import * as yup from 'yup'
 
 const schema = yup.object().shape({
-    rfid_stato: yup.boolean().required(),
     piano: yup.number().required(),
     posto: yup.number().required(),
 })
@@ -17,7 +16,6 @@ const validate = withValidation({
 
 interface ExtendedNextApiRequest extends NextApiRequest {
     body: {
-        rfid_stato: boolean
         piano: number
         posto: number
     }
@@ -28,7 +26,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 // del posto parcheggio generata Random
 
 const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
-    const { rfid_stato, piano, posto } = req.body
+    const { piano, posto } = req.body
 
     try {
         if (req.method === 'POST') {
@@ -43,7 +41,7 @@ const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
                 where: {
                     parcheggi_id: findParcheggio.parcheggi_id,
                 },
-                data: { parcheggio_stato: true, rfid_stato: rfid_stato },
+                data: { parcheggio_stato: true },
             })
             res.status(200).json({ Occupazioneparcheggi })
         } else {

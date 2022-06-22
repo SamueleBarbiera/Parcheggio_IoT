@@ -18,7 +18,7 @@ export default function Login({ providers }: InferGetServerSidePropsType<typeof 
         <>
             <Head>
                 <title>Login</title>
-                <link rel="icon" href="/question-solid.svg" />
+                <link rel="icon" href="/icon-512x512.png" />
             </Head>
             <Header />
             <LoginForm providers={providers} />
@@ -36,20 +36,17 @@ export const getServerSideProps = async ({ req }: any) => {
             const emptyRfid = await prisma.rfids.findFirst({
                 where: { user_id_fk: null },
             })
-            console.log('🚀 - file: LoginForm.tsx - emptyRfid', emptyRfid)
             const userId = await prisma.user.findFirst({
                 where: { email: session!.user!.email },
                 select: {
                     id: true,
                 },
             })
-            console.log('🚀 - file: LoginForm.tsx - line 66 - userId', userId)
 
             const data = await prisma.rfids.update({
                 where: { rfid_id: emptyRfid!.rfid_id },
                 data: { user_id_fk: userId?.id, stato: true },
             })
-            console.log('🚀 - line 30 - data', data)
         } catch (err) {
             console.log('🚀 - file: Login.tsx - line 31 - err', err)
         }

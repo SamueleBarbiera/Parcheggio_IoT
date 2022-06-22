@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../../lib/prisma'
-import { Queue } from 'bullmq'
-import { Prisma } from '@prisma/client'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -20,18 +18,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 }
 
-//const arrRes: any = []
-// const myQueue = new Queue('myqueue', {
-//     connection: {
-//         host: 'containers-us-west-54.railway.app',
-//         port: 7014,
-//         password: 'iIErHDldOVe4EgvqpC3y',
-//         username: 'default',
-//     },
-// })
-// for (var x = 0; x < 50; x++) {
-//     arrRes[x] = { name: x, data: result[x] }
-// }
-// const jobs = await myQueue.addBulk(arrRes)
-//console.log('🚀 - file: disp.ts - line 17 - handler - jobs', jobs)
-//console.log('🚀 - file: disp.ts - line 11 - handler - myQueue', myQueue)
+

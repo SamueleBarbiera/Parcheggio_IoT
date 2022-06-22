@@ -4,13 +4,14 @@ import { CheckIcon } from '@heroicons/react/solid'
 import AccessDenied from '@/pages/AccessDenied'
 import { getSession, useSession } from 'next-auth/client'
 import Head from 'next/head'
+import { InferGetServerSidePropsType } from "next";
 
-function CancelPagamento() {
+function CancelPagamento(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
         <>
             <Head>
                 <title>Pagamento Annullato</title>
-                <link rel="icon" href="/question-solid.svg" />
+                <link rel="icon" href="/icon-512x512.png" />
                 <meta charSet="utf-8" className="next-head" />
             </Head>
             <Header />

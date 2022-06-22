@@ -35,6 +35,29 @@ const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
                         posto: posto,
                         parcheggio_stato: true,
                     },
+                    select: { parcheggi_id: true },
+                })
+                const trovaPagamento = await prisma.durata.findFirst({
+                    take: -1,
+                    where: {
+                        parcheggi_id_fk: findParcheggio?.parcheggi_id,
+                    },
+                    select: { durata_id: true },
+                })
+                const avviPagamento = await prisma.durata.update({
+                    where: {
+                        durata_id: trovaPagamento?.durata_id,
+                    },
+                    data: { pagamento_effettuato: true },
+                })
+                res.status(200).json({ avviPagamento })
+            } else {
+                const findParcheggio = await prisma.parcheggi.findFirst({
+                    where: {
+                        piano: piano,
+                        posto: posto,
+                        parcheggio_stato: true,
+                    },
                 })
                 const trovaPagamento = await prisma.durata.findFirst({
                     where: {
@@ -47,9 +70,7 @@ const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
                     },
                     data: { pagamento_effettuato: true },
                 })
-                res.redirect(302, 'cart/Checkout')
-            } else {
-                res.status(200).json('Check-out effettuato senza rfid')
+                res.status(200).json({ 'Pagamento effettuato con il btn al checkout': avviPagamento })
             }
         } else {
             res.status(400).json({

@@ -89,13 +89,12 @@ model Durata {
 }
 
 model Parcheggi {
-  parcheggi_id     String     @id @default(cuid())
+  parcheggi_id     String   @id @default(cuid())
   piano            Int
   posto            Int
-  rfid_stato       Boolean
   parcheggio_stato Boolean
-  createdAt        DateTime   @default(now()) @map(name: "created_at")
-  updatedAt        DateTime   @updatedAt @map(name: "updated_at")
+  createdAt        DateTime @default(now()) @map(name: "created_at")
+  updatedAt        DateTime @updatedAt @map(name: "updated_at")
   Durata           Durata[]
 
   @@map(name: "parcheggi")

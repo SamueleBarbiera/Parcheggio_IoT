@@ -1,0 +1,251 @@
+openapi: 3.0.0
+
+info:
+  version: '0.0.1'
+  title: 'BUGSEATING 2022'
+  license:
+    name: MIT
+
+servers:
+  - url: 'localhost:3000/api/data'
+
+paths:
+  /rfid-btn/check-in:
+    post:
+       summary: 'Controllo rfid'
+       operationId: CHECKIN
+       tags:
+        - Rfid
+       requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rfid_codice:          
+                  type: string
+       responses:
+            '200':
+               description: 'CHECKIN CON IL RFID'
+               content:
+                  application/json:
+                    schema:
+                        $ref: '#/components/schemas/Rfid'
+            '204':
+               description: 'Checkin effettuato con il BOTTONE'
+               content:
+                  application/json:
+                    schema:
+                        $ref: '#/components/schemas/Rfid'
+            '400':
+                description: 'Bad request error'
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Error' 
+  /rfid-btn/check-out:
+    post:
+       summary: 'Controllo rfid'
+       operationId: CHECKOUT
+       tags:
+        - Rfid
+       requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rfid_codice:          
+                  type: string
+                piano:          
+                  type: number
+                posto:          
+                  type: number
+       responses:
+            '200':
+               description: 'CHECKOUT CON IL BOTTONE'
+               content:
+                  application/json:
+                    schema:
+                        $ref: '#/components/schemas/Rfid'
+            '302':
+               description: 'CHECKOUT CON IL RFID CON RENDERIZZAMENRTO A STRIPE'
+               content:
+                  application/json:
+                    schema:
+                        $ref: '#/components/schemas/Rfid'
+            '400':
+                description: 'Bad request error'
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Error'                         
+  /parcheggi/check-in:
+    post:
+       summary: 'Entra dal parcheggio'
+       operationId: EntraParcheggio
+       tags:
+        - Parcheggi
+       requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                piano:          
+                  type: integer
+                posto:
+                  type: integer
+       responses:
+            '200':
+               description: 'Parcheggio settato con stato false'
+               content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/Parcheggi'  
+            '400':
+                description: 'Bad request error'
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Error'  
+  /parcheggi/check-out:
+     post:
+       summary: 'Esci nel parcheggio'
+       operationId: EsciParcheggio
+       tags:
+        - Parcheggi
+       requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                piano:          
+                  type: integer
+                posto:
+                  type: integer
+       responses:
+            '200':
+               description: 'Parcheggio settato con stato true'
+               content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/Parcheggi'  
+            '400':
+                description: 'Bad request error'
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Error'    
+  /parcheggi/liberi:
+    get:
+      summary: 'Ritorna i posti liberi totali per piano'
+      operationId: ParcheggiLiberi
+      tags:
+        - ParcheggiLiberi
+      responses:
+        '200':
+          description: 'Ritorna i posti liberi totali per piano'
+          content:
+            application/json:
+              schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ParcheggiLiberi'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'                   
+  /durata/create:
+    post:
+       summary: 'Crea una durata'
+       operationId: Durata
+       tags:
+        - Durata
+       requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Durata'
+       responses:
+            '200':
+               description: 'Durata creata'
+               content:
+                  application/json:
+                    schema:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Durata'
+            '400':
+                description: 'Bad request error'
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Rfid:
+      type: object
+      properties:
+        rfid_id:
+          type: string
+          format: cuid
+        codice:     
+          type: string
+        stato:     
+          type: boolean
+        user_id_fk:
+          type: string
+  
+    Parcheggi:
+      type: object
+      properties:
+        parcheggi_id:     
+          type: string
+          format: cuid
+        piano:
+          type: integer       
+        posto:
+          type: integer   
+        parcheggio_stato:
+          type: boolean 
+     
+    Durata:
+      type: object
+      properties:
+        durata_id:           
+          type: string 
+          format: cuid   
+        tempo:                
+          type: number
+        costo_finale:         
+          type: number
+        pagamento_effettuato: 
+          type: boolean
+        parcheggi_id_fk:     
+          type: string
+
+    ParcheggiLiberi:
+      type: object
+      properties:
+        piano0:
+          type: integer
+        piano1:
+          type: integer
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          enum: [400]
+        message:
+          type: string
