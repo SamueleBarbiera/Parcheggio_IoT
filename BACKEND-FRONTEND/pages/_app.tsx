@@ -1,6 +1,6 @@
 import { Provider } from 'next-auth/client'
 import type { AppProps } from 'next/app'
-import '../build.css'
+import '../public/styles.css'
 
 import NextNProgress from 'nextjs-progressbar'
 import { CartProvider } from 'use-shopping-cart'
@@ -10,7 +10,7 @@ export const myLoader = ({ src, width, quality }: any) => {
     return `${src}?w=${width}&q=${quality || 50}`
 }
 
-export default function MyApp({ Component, pageProps }:AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Provider session={pageProps.session}>
             <CartProvider
