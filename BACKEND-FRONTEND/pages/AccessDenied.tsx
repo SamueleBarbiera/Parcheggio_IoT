@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { FcLock } from 'react-icons/fc'
 import { CgArrowDown } from 'react-icons/cg'
 import Head from 'next/head'
-import Link from 'next/link'
 function AccessDenied() {
     return (
         <>
@@ -19,7 +19,7 @@ function AccessDenied() {
                     </p>
                     <CgArrowDown className="h-12 w-12 flex-shrink-0  text-red-900" />
                     <p className="mt-3 rounded-lg bg-red-300 p-2 text-xl font-bold text-gray-900 transition duration-200 ease-in-out hover:bg-red-400">
-                        <Link href="/auth/Login">ACCEDI</Link>
+                        <a href="/auth/Login">ACCEDI</a>
                     </p>
                 </div>
             </div>
