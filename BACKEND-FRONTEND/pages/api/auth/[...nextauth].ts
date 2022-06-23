@@ -4,7 +4,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth'
 import prisma from '../../../lib/prisma'
 import Providers from 'next-auth/providers'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import PrismaAdapter from '@next-auth/prisma-adapter'
 
 const GOOGLE_AUTHORIZATION_URL =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
