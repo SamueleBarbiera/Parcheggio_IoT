@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon, RefreshIcon } from '@heroicons/react/solid'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useState } from 'react'
 import { fetchPostJSON } from '../../content/utils/api-helpers'
 import { useShoppingCart } from 'use-shopping-cart'
 import { Product } from 'use-shopping-cart/core'

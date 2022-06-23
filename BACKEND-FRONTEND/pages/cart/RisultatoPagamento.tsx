@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'preact/hooks'
+import { useEffect } from 'react'
 import useSWR from 'swr'
 import { useShoppingCart } from 'use-shopping-cart'
 import { shootFireworks } from '../../content/lib/Utils'

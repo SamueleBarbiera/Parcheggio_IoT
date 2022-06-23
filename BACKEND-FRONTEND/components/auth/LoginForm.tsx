@@ -4,6 +4,7 @@ import { signIn } from 'next-auth/client'
 import { AiTwotoneCar } from 'react-icons/ai'
 
 export default function LoginForm({ providers }: any) {
+    console.log('🚀 - file: LoginForm.tsx - line 7 - LoginForm - providers', providers)
     return (
         <>
             <div className="flex h-screen flex-col justify-center bg-indigo-900 px-6 py-4">
