@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
 
-const Home = (props) => {
+const Home = () => {
     const Router = useRouter()
     const { clearCart, totalPrice } = useShoppingCart()
     const url: any = '/cart/Checkout'
