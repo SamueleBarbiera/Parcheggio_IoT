@@ -4,8 +4,9 @@ import { CheckIcon } from '@heroicons/react/solid'
 import AccessDenied from '@/pages/AccessDenied'
 import { getSession, useSession } from 'next-auth/client'
 import Head from 'next/head'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from 'next'
 import React from 'react'
+import { ParsedUrlQuery } from 'querystring'
 
 const CancelPagamento: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     return (

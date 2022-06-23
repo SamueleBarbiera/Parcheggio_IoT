@@ -9,9 +9,9 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { getSession } from 'next-auth/client'
 import Head from 'next/head'
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
-const RisultatoPagamento: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>)=> {
+const RisultatoPagamento: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const router = useRouter()
     const { clearCart } = useShoppingCart()
     const { data, error } = useSWR(
@@ -67,7 +67,7 @@ const RisultatoPagamento: React.FC<any> = (props: InferGetServerSidePropsType<ty
     )
 }
 export default RisultatoPagamento
-export const getServerSideProps: GetServerSideProps = async (ctx: any) =>{
+export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx)
 
     if (!session!.user && session!.user == {} && (session as any).user.email === '') {
