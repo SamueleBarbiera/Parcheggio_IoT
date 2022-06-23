@@ -1,16 +1,15 @@
 import { Provider } from 'next-auth/client'
 import type { AppProps } from 'next/app'
-import './styles/globals.css'
-
 import NextNProgress from 'nextjs-progressbar'
 import { CartProvider } from 'use-shopping-cart'
+import '../styles/globals.css'
 const CURRENCY = 'EUR'
 
 export const myLoader = ({ src, width, quality }: any) => {
     return `${src}?w=${width}&q=${quality || 50}`
 }
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }:AppProps) {
     return (
         <Provider session={pageProps.session}>
             <CartProvider
