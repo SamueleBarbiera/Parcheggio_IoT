@@ -4,7 +4,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth'
 import prisma from '../../../lib/prisma'
 import Providers from 'next-auth/providers'
 import { NextApiRequest, NextApiResponse } from 'next'
-import PrismaAdapter from '@next-auth/prisma-adapter'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 const GOOGLE_AUTHORIZATION_URL =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
@@ -68,16 +68,12 @@ export const options: any = {
         secret: process.env.NEXTAUTH_SECRET,
     },
     callbacks: {
-        async session(session: { jwt: any; id: any }, user: { jwt: any; id: any }) {
+        async session(session: any, user: any) {
             session.jwt = user.jwt
             session.id = user.id
             return session
         },
-        async jwt(
-            token: { accessToken: any; accessTokenExpires: any; refreshToken: any; jwt: any; id: any },
-            user: any,
-            account: any
-        ) {
+        async jwt(token: any, user: any, account: any) {
             const isSignIn = user ? true : false
             if (isSignIn) {
                 const response = await fetch(

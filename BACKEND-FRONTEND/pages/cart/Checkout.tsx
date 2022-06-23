@@ -170,6 +170,7 @@ function Checkout(props: InferGetServerSidePropsType<typeof getServerSideProps>)
     )
 }
 
+export default Checkout
 
 export async function getServerSideProps(ctx: any) {
     const session = await getSession(ctx)
