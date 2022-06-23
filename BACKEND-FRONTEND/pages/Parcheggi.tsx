@@ -3,20 +3,20 @@ import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
 import Head from 'next/head'
 import { AiTwotoneCar } from 'react-icons/ai'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Switch } from '@headlessui/react'
 import { fetcher } from 'content/lib/fetcher'
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import { useShoppingCart } from 'use-shopping-cart'
-import { InferGetServerSidePropsType } from "next";
+import { InferGetServerSidePropsType } from 'next'
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Parcheggi(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+const Parcheggi: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const Router = useRouter()
     const { clearCart } = useShoppingCart()
     const [piano, setPiano] = useState(false)

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import useSWR from 'swr'
 import { useShoppingCart } from 'use-shopping-cart'
 import { shootFireworks } from '../../content/lib/Utils'
@@ -11,7 +11,7 @@ import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 import { InferGetServerSidePropsType } from "next";
 
-export default function RisultatoPagamento(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+const RisultatoPagamento: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>)=> {
     const router = useRouter()
     const { clearCart } = useShoppingCart()
     const { data, error } = useSWR(

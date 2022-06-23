@@ -6,10 +6,10 @@ import Head from 'next/head'
 import { getProviders, getSession } from 'next-auth/client'
 import { PrismaClient } from '@prisma/client'
 import { useShoppingCart } from 'use-shopping-cart'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { InferGetServerSidePropsType } from 'next'
 
-export default function Login({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+ const Login: React.FC<any> = ({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>)=> {
     const { clearCart } = useShoppingCart()
 
     useEffect(() => {

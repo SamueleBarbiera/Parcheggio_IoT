@@ -5,8 +5,9 @@ import AccessDenied from '@/pages/AccessDenied'
 import { getSession, useSession } from 'next-auth/client'
 import Head from 'next/head'
 import { InferGetServerSidePropsType } from "next";
+import React from 'react'
 
-export default  function CancelPagamento(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+const CancelPagamento: React.FC<any> = (props: any)=> {
     return (
         <>
             <Head>
@@ -27,7 +28,6 @@ export default  function CancelPagamento(props: InferGetServerSidePropsType<type
         </>
     )
 }
-
 
 export async function getServerSideProps(ctx: any) {
     const session = await getSession(ctx)
