@@ -11,9 +11,9 @@ import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 
 import React from 'react'
-import { InferGetServerSidePropsType } from 'next'
+import { InferGetServerSidePropsType  GetServerSideProps,} from 'next'
 
-const Checkout: React.FC<any> = (props: any) => {
+const Checkout: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const router = useRouter()
     const { cartDetails, totalPrice, clearCart, redirectToCheckout } = useShoppingCart()
     const [loading, setLoading] = useState<boolean>(false)
@@ -170,8 +170,8 @@ const Checkout: React.FC<any> = (props: any) => {
         </>
     )
 }
-
-export async function getServerSideProps(ctx: any) {
+export default Checkout
+export const  getServerSideProps: GetServerSideProps=async (ctx: any)=> {
     const session = await getSession(ctx)
 
     if (!session!.user && session!.user == {} && (session as any).user.email === '') {

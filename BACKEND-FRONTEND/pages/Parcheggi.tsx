@@ -10,7 +10,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import { useShoppingCart } from 'use-shopping-cart'
-import { InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -135,8 +135,8 @@ const Parcheggi: React.FC<any> = (props: InferGetServerSidePropsType<typeof getS
         return null
     }
 }
-
-export async function getServerSideProps() {
+export default Parcheggi
+export const getServerSideProps: GetServerSideProps = async () => {
     const res = await fetch(`${process.env.NEXT_URL}/api/data/parcheggi`)
     const data = await res.json()
 

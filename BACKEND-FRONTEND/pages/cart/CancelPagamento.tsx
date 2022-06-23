@@ -4,10 +4,10 @@ import { CheckIcon } from '@heroicons/react/solid'
 import AccessDenied from '@/pages/AccessDenied'
 import { getSession, useSession } from 'next-auth/client'
 import Head from 'next/head'
-import { InferGetServerSidePropsType } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import React from 'react'
 
-const CancelPagamento: React.FC<any> = (props: any)=> {
+const CancelPagamento: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     return (
         <>
             <Head>
@@ -28,8 +28,8 @@ const CancelPagamento: React.FC<any> = (props: any)=> {
         </>
     )
 }
-
-export async function getServerSideProps(ctx: any) {
+export default CancelPagamento
+export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx)
 
     if (!session!.user && session!.user == {} && (session as any).user.email === '') {
