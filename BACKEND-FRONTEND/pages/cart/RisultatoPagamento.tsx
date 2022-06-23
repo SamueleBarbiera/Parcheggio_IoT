@@ -11,7 +11,7 @@ import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 import { InferGetServerSidePropsType } from "next";
 
-export default function RisultatoPagamento (props: any) {
+export default function RisultatoPagamento(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const router = useRouter()
     const { clearCart } = useShoppingCart()
     const { data, error } = useSWR(

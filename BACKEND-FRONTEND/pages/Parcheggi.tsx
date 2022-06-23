@@ -10,7 +10,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import { useShoppingCart } from 'use-shopping-cart'
-import { InferGetServerSidePropsType } from 'next'
+import { InferGetServerSidePropsType } from "next";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')

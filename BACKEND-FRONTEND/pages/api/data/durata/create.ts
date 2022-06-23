@@ -42,11 +42,10 @@ const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
                 where: { parcheggio_stato: true, piano: piano, posto: posto },
                 select: { parcheggi_id: true, createdAt: true, updatedAt: true },
             })
-            
+
             //numero ore * (calcolo medio sett ptima*(affluenza stimata di oggi)/affluenza di sett prima)
             const pgp = require('pg-promise')()
             const db = pgp(process.env.NEXT_DATABASE_URL)
-            console.log('🚀 - file: create.ts - line 47 - handle - parking', parking?.updatedAt, parking?.createdAt)
             let uscita, entrata
             uscita = new Date(parking?.updatedAt as any).toISOString()
             entrata = new Date(parking?.createdAt as any).toISOString()
@@ -57,9 +56,9 @@ const handle = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
 
             console.log('🚀 - file: create.ts - line 51 - handle - uscita', uscita, entrata)
 
-            let query = `SELECT COUNT(*), AVG(costo_finale/(to_char(${uscita}, 'J') - to_char(${entrata}, 'J')*24)) FROM Durata WHERE entrata BETWEEN ${yesterday} AND ${data_entrata}`
-            console.log('🚀 - file: create.ts - line 68 - handle - query', query)
-            const old_data = await db.any(query, [true])
+            const old_data:any =
+                await prisma.$queryRaw`SELECT COUNT(*), AVG(costo_finale/((TO_DAYS(${uscita})+1721060) - TO_DAYS(${entrata})+1721060)*24) FROM Durata WHERE entrata BETWEEN ${yesterday} AND ${data_entrata}`
+
             console.log('🚀 - file: create.ts - line 61 - handle - users', old_data)
 
             const n_hours = tempoGet

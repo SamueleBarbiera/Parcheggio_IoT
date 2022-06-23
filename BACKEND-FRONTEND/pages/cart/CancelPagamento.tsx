@@ -4,9 +4,9 @@ import { CheckIcon } from '@heroicons/react/solid'
 import AccessDenied from '@/pages/AccessDenied'
 import { getSession, useSession } from 'next-auth/client'
 import Head from 'next/head'
-import { InferGetServerSidePropsType } from 'next'
+import { InferGetServerSidePropsType } from "next";
 
-function CancelPagamento(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default  function CancelPagamento(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
         <>
             <Head>
@@ -28,7 +28,6 @@ function CancelPagamento(props: InferGetServerSidePropsType<typeof getServerSide
     )
 }
 
-export default CancelPagamento
 
 export async function getServerSideProps(ctx: any) {
     const session = await getSession(ctx)
