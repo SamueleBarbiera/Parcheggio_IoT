@@ -16,7 +16,7 @@ const navigation = {
     pages: [
         {
             name: 'Home',
-            href: '/',
+            href: '#',
             icon: <AiTwotoneCar className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" />,
         },
         {
@@ -109,7 +109,7 @@ export default function Header() {
                                     <div className="flex h-16 items-center justify-between">
                                         {/* Logo (lg+) */}
                                         <div className="hidden md:flex md:flex-1 lg:items-center">
-                                            <a href="/" className="flex-shrink-0">
+                                            <a href="#" className="flex-shrink-0">
                                                 <AiTwotoneCar
                                                     className="h-6 w-6 flex-shrink-0 text-indigo-900"
                                                     aria-hidden="true"
