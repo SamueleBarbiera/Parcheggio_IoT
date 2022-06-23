@@ -9,7 +9,7 @@ import { useShoppingCart } from 'use-shopping-cart'
 import { useEffect } from 'react'
 import { InferGetServerSidePropsType } from 'next'
 
-function Login({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Login({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const { clearCart } = useShoppingCart()
 
     useEffect(() => {

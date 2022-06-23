@@ -9,8 +9,9 @@ import Header from '@/components/layout/Header'
 import { LockClosedIcon } from '@heroicons/react/solid'
 import { getSession } from 'next-auth/client'
 import Head from 'next/head'
-import { InferGetServerSidePropsType } from 'next'
+
 import React from 'react'
+import { InferGetServerSidePropsType } from "next";
 
 function Checkout(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const router = useRouter()
@@ -170,6 +171,7 @@ function Checkout(props: InferGetServerSidePropsType<typeof getServerSideProps>)
     )
 }
 
+export default Checkout
 
 export async function getServerSideProps(ctx: any) {
     const session = await getSession(ctx)

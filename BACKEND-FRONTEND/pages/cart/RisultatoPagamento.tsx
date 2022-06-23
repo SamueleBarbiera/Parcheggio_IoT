@@ -9,9 +9,9 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { getSession } from 'next-auth/client'
 import Head from 'next/head'
-import { InferGetServerSidePropsType } from 'next'
+import { InferGetServerSidePropsType } from "next";
 
-const RisultatoPagamento = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const RisultatoPagamento = (props: any) => {
     const router = useRouter()
     const { clearCart } = useShoppingCart()
     const { data, error } = useSWR(
