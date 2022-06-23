@@ -7,7 +7,7 @@
     "author": "BUGSEATING",
     "scripts": {
         "dev": "next dev -p 3000",
-        "build": "prisma generate && next build && next export",
+        "build": "prisma generate && next build ",
         "start": "next start"
     },
     "dependencies": {
