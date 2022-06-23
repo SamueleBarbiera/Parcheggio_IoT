@@ -16,7 +16,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Parcheggi(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function Parcheggi(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const Router = useRouter()
     const { clearCart } = useShoppingCart()
     const [piano, setPiano] = useState(false)
