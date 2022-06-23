@@ -14,7 +14,7 @@ const GOOGLE_AUTHORIZATION_URL =
         response_type: 'code',
     })
 
-const refreshAccessToken = async (payload: any, clientId: string, clientSecret: string) => {
+const refreshAccessToken: any = async (payload: any, clientId: string, clientSecret: string) => {
     try {
         const url = new URL('https://accounts.google.com/o/oauth2/token')
         url.searchParams.set('client_id', clientId)
@@ -54,7 +54,7 @@ const refreshAccessToken = async (payload: any, clientId: string, clientSecret: 
     }
 }
 
-export const options: NextAuthOptions = {
+export const options: any = {
     adapter: PrismaAdapter(prisma),
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
@@ -68,12 +68,16 @@ export const options: NextAuthOptions = {
         secret: process.env.NEXTAUTH_SECRET,
     },
     callbacks: {
-        async session(session, user) {
+        async session(session: { jwt: any; id: any }, user: { jwt: any; id: any }) {
             session.jwt = user.jwt
             session.id = user.id
             return session
         },
-        async jwt(token, user, account) {
+        async jwt(
+            token: { accessToken: any; accessTokenExpires: any; refreshToken: any; jwt: any; id: any },
+            user: any,
+            account: any
+        ) {
             const isSignIn = user ? true : false
             if (isSignIn) {
                 const response = await fetch(

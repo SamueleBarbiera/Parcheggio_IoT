@@ -9,7 +9,7 @@ export const myLoader = ({ src, width, quality }: any) => {
     return `${src}?w=${width}&q=${quality || 50}`
 }
 
-export default function MyApp({ Component, pageProps }:AppProps) {
+export default function MyApp({ Component, pageProps }) {
     return (
         <Provider session={pageProps.session}>
             <CartProvider
