@@ -1,85 +1,135 @@
 #include <LiquidCrystal.h> // libreria per il display LCD
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <time.h>
 #include <ArduinoJson.h>
 
 //definisco tutti i pin del display LCD
-#define rs 12
-#define en 27
-#define d4 13
-#define d5 14
-#define d6 25
-#define d7 26
+#define rs 13
+#define en 12
+#define d4 14
+#define d5 27
+#define d6 26
+#define d7 25
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-//variabili per la connessione alla rete e al server
-const char* ssid = "Vodafone-23470597";
-const char* password =  "t3sztdhib3zxk6e";
-String serverName = "http://192.168.1.4:5000/posti";
+//variabili per la connessione alla rete e al nostro server
+const char* ssid = "TCPBerry_2.4";
+const char* password =  "Vmware1!";
+String serverName = "http://172.16.5.193:5000/posti";
+
+//NTP Server per ricavare l'ora corrente
+const char* ntpServer = "pool.ntp.org";
+const long  gmtOffset_sec = 0;
+const int   daylightOffset_sec = 3600;
 
 // variabili generiche di supporto
 int lastTime;
 int timerDelay;
-int postiPianoTerra=0;
-int postiPianoUno=0;
+int postiPianoTerra=50;
+int postiPianoUno=50;
 String dataString;
+struct tm timeinfo;
+int currentHour=0;
+int currentMinute=0;
 
 void setup() {
   lcd.begin(16, 2); // imposto il numero di colonne e di righe del display LCD
   Serial.begin(9600);
   WiFi.begin(ssid, password);
   lastTime = 0;
-  timerDelay = 6000;
+  timerDelay = 10000;
+  //configuro le impostazioni per ricevere l'orrio in formato corretto
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 }
 
 void loop() {
+  
   if ((millis() - lastTime) > timerDelay) {
-    
     //Controllo stato connessione
     if(WiFi.status()== WL_CONNECTED){
-      dataString = httpGETRequest(serverName); //salvo risposta della chiamata get al server
-      
-      //la risposta ottenuta in formato stringa la converto in formato oggetto json
-      DynamicJsonDocument doc(1024);
-      deserializeJson(doc, dataString);
 
-      if(doc["ErrorCode"] != -1) // se va tutto bene e non ci sono errori aggiorno i valori di posti occupati
-      {
-        postiPianoTerra = int(doc["posti"]["0"]);
-        postiPianoUno = int(doc["posti"]["1"]);
-  
-        Serial.println(postiPianoTerra);
-        Serial.println(postiPianoUno);
+      //provo a ottenere l'orario attuale con una chiamata al server NTP
+      if(!getLocalTime(&timeinfo)){
+        Serial.println("Failed to obtain time");
       }
-  
-      //setto display per il parcheggio terra
-      lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print("Parcheggio 00:");
-      lcd.setCursor(0, 1);
-      lcd.print(String(postiPianoTerra)+"/50");
+      else
+      {
+        // se va tutto bene mi salvo i minuti e le ore correnti e me le salvo
+        // in formato intero
+        char timeHour[3];
+        char timeMinutes[3];
+        strftime(timeHour,3, "%H", &timeinfo);
+        strftime(timeMinutes,3,"%M", &timeinfo);
+        currentHour = atoi(timeHour);
+        currentMinute = atoi(timeMinutes);
+        currentHour=currentHour+1;
 
-      delay(3000);
+        if(currentHour==24)
+        {
+          currentHour=0;
+        }
 
-      //setto display per il parcheggio piano uno
-      lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print("Parcheggio 01:");
-      lcd.setCursor(0, 1);
-      lcd.print(String(postiPianoUno)+"/50");
+        // Se l'orario è compreso tra le 00:00 e le 06:00 allora il parcheggio risulta chiuso
+        if((currentHour==23 && currentMinute>30) || (currentHour >= 0 && currentHour < 6))
+        {
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("PARCHEGGIO");
+          lcd.setCursor(0, 1);
+          lcd.print("CHIUSO");
+        }
+        else
+        {
+          dataString = httpGETRequest(serverName); //salvo risposta della chiamata get al server
+          
+          //la risposta ottenuta in formato stringa la converto in formato oggetto json
+          DynamicJsonDocument doc(1024);
+          deserializeJson(doc, dataString);
+
+          if(doc["ErrorCode"] != -1) // se va tutto bene e non ci sono errori aggiorno i valori di posti occupati
+          {
+            postiPianoTerra = int(doc["posti"]["0"]);
+            postiPianoUno = int(doc["posti"]["1"]);
+      
+            Serial.println(postiPianoTerra);
+            Serial.println(postiPianoUno);
+          }
+
+          // Nel caso si verificasse un errore ugualmente il display fa visualizzare gli
+          // ultimi dati ricevuti
+          
+          //setto display per il parcheggio terra
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("Piano 00:");
+          lcd.setCursor(0, 1);
+          if(postiPianoTerra == 0)
+            lcd.print("PIENO");
+          else
+            lcd.print("Liberi: "+String(postiPianoTerra));
+
+          delay(5000);
+
+          //setto display per il parcheggio piano uno
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("Piano 01:");
+          lcd.setCursor(0, 1);
+          if (postiPianoUno == 0)
+            lcd.print("PIENO");
+          else
+            lcd.print("Liberi: "+String(postiPianoUno));
+        }
+      }
     }
-    else {
-      // in caso di mancata connessione imposto il display con la scritta "ERRORE DI CONNESSIONE"
-      Serial.println("WiFi Disconnected");
-      lcd.clear();
-      lcd.setCursor(0,0);
-      lcd.print("ERRORE DI");
-      lcd.setCursor(0,1);
-      lcd.print("CONNESSIONE");
+    else
+    {
+      Serial.print("Wifi not connected");
     }
     lastTime = millis();
   }
-  
+   
 }
 
 // funzione che effettua la chiamata get al server
