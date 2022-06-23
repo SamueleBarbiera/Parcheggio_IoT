@@ -237,6 +237,7 @@ def handlerCTRL(signum, frame):
     GPIO.output(RED,0)
     GPIO.output(GREEN,0)
     GPIO.output(YELLOW,0)
+    lcd.clear()
     lcd.close()
     exit(1)
  
@@ -260,7 +261,7 @@ while True:
             lcd.cursor_pos=(1,0)
             lcd.write_string("CHIUSO")
             GPIO.output(RED,1)
-            chiuso = True # booleano di controllo che indica il parcheggio chiuso
+        chiuso = True # booleano di controllo che indica il parcheggio chiuso
     else:
         # se invece l'orario attuale non è compreso nell'intervallo precedente 
         # imposto la variabile di controllo "chiuso" a False, spengo il LED rosso
@@ -273,13 +274,14 @@ while True:
 
         # se durante l'operazione per ottenere il numero di posti parcheggio liberi totali si verifica un errore
         # ottengo un codice -1 come risposta, dunque imposto il LED giallo e ricomincia un nuovo ciclo
-        if parcheggiLiberi == -1 and GPIO.input(YELLOW) == 0:
-            lcd.clear()
-            lcd.cursor_pos=(0,0)
-            lcd.write_string("SERVER NON")
-            lcd.cursor_pos=(1,0)
-            lcd.write_string("RAGGIUNGIBILE")
-            GPIO.output(YELLOW,1)
+        if parcheggiLiberi == -1:
+            if GPIO.input(YELLOW) == 0:
+                lcd.clear()
+                lcd.cursor_pos=(0,0)
+                lcd.write_string("SERVER NON")
+                lcd.cursor_pos=(1,0)
+                lcd.write_string("RAGGIUNGIBILE")
+                GPIO.output(YELLOW,1)
         else:
             # se invece l'operazione per ottenere il numero di posti parcheggio liberi totali va a buon fine
             # spengo il LED giallo in caso di errori precedenti
@@ -288,13 +290,14 @@ while True:
 
             # poi controllo se il numero di posti parcheggio liberi totali equivale a 0 vuol dire
             # che il parcheggio risulta pieno e imposto il LED rosso
-            if parcheggiLiberi == 0 and GPIO.input(RED) == 0:
-                lcd.clear()
-                lcd.cursor_pos=(0,0)
-                lcd.write_string("PARCHEGGIO")
-                lcd.cursor_pos=(1,0)
-                lcd.write_string("PIENO")
-                GPIO.output(RED,1)
+            if parcheggiLiberi == 0:
+                if GPIO.input(RED) == 0:
+                    lcd.clear()
+                    lcd.cursor_pos=(0,0)
+                    lcd.write_string("PARCHEGGIO")
+                    lcd.cursor_pos=(1,0)
+                    lcd.write_string("PIENO")
+                    GPIO.output(RED,1)
                 pieno = True # booleano di controllo che indica il parcheggio chiuso
             else:
                 # altrimenti il parcheggio risulta disponibile, quindi imposto la variabile di controllo "pieno" a False
