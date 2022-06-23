@@ -31,7 +31,6 @@ int postiPianoUno=50;
 String dataString;
 struct tm timeinfo;
 int currentHour=0;
-int currentMinute=0;
 
 void setup() {
   lcd.begin(16, 2); // imposto il numero di colonne e di righe del display LCD
@@ -58,11 +57,8 @@ void loop() {
         // se va tutto bene mi salvo i minuti e le ore correnti e me le salvo
         // in formato intero
         char timeHour[3];
-        char timeMinutes[3];
         strftime(timeHour,3, "%H", &timeinfo);
-        strftime(timeMinutes,3,"%M", &timeinfo);
         currentHour = atoi(timeHour);
-        currentMinute = atoi(timeMinutes);
         currentHour=currentHour+1;
 
         if(currentHour==24)
@@ -71,7 +67,7 @@ void loop() {
         }
 
         // Se l'orario è compreso tra le 00:00 e le 06:00 allora il parcheggio risulta chiuso
-        if((currentHour==23 && currentMinute>30) || (currentHour >= 0 && currentHour < 6))
+        if(currentHour >= 0 && currentHour < 6)
         {
           lcd.clear();
           lcd.setCursor(0, 0);
