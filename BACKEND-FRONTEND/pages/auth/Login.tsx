@@ -4,7 +4,8 @@ import Header from '../../components/layout/Header'
 import LoginForm from '../../components/auth/LoginForm'
 import Head from 'next/head'
 import { getProviders, getSession } from 'next-auth/client'
-import { PrismaClient } from '@prisma/client'
+import PrismaClient from '@prisma/client'
+import prisma from '../../lib/prisma'
 import { useShoppingCart } from 'use-shopping-cart'
 import React, { useEffect } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
@@ -31,7 +32,6 @@ const Login: React.FC<any> = ({ providers }: InferGetServerSidePropsType<typeof 
 export default Login
 export const getServerSideProps: GetServerSideProps = async ({ req }: any) => {
     const session = await getSession({ req })
-    const prisma = new PrismaClient()
 
     if (session) {
         try {

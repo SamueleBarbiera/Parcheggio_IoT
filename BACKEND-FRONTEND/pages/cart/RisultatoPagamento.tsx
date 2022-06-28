@@ -67,6 +67,7 @@ const RisultatoPagamento: React.FC<any> = (props: InferGetServerSidePropsType<ty
     )
 }
 export default RisultatoPagamento
+
 export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx)
 

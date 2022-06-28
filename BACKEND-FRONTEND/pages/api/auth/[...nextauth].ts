@@ -1,10 +1,13 @@
 /* eslint-disable indent */
 /* eslint-disable import/no-anonymous-default-export */
 import NextAuth, { NextAuthOptions } from 'next-auth'
-import prisma from '../../../lib/prisma'
 import Providers from 'next-auth/providers'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import PrismaAdapter from '@next-auth/prisma-adapter'
+import { PrismaClient } from '@prisma/client'
+import Adapters from 'next-auth/adapters'
+
+const prisma = new PrismaClient()
 
 const GOOGLE_AUTHORIZATION_URL =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
@@ -55,7 +58,7 @@ const refreshAccessToken: any = async (payload: any, clientId: string, clientSec
 }
 
 export const options: any = {
-    adapter: PrismaAdapter(prisma),
+    adapter: Adapters.Prisma.Adapter({ prisma }),
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
         Providers.Google({

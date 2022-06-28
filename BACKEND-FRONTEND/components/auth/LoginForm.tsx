@@ -1,8 +1,6 @@
 /* eslint-disable no-control-regex */
 /* eslint-disable no-unused-vars */
-import { PrismaClient } from '@prisma/client'
-import { GetServerSideProps } from 'next'
-import { getSession, signIn, useSession } from 'next-auth/client'
+import { signIn } from 'next-auth/client'
 import { AiTwotoneCar } from 'react-icons/ai'
 
 export default function LoginForm({ providers }: any) {

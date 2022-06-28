@@ -5,11 +5,7 @@ import { CartProvider } from 'use-shopping-cart'
 import '../styles/globals.css'
 const CURRENCY = 'EUR'
 
-export const myLoader = ({ src, width, quality }: any) => {
-    return `${src}?w=${width}&q=${quality || 50}`
-}
-
-export default function MyApp({ Component, pageProps }:AppProps) {
+export default function App({ Component, pageProps }:AppProps) {
     return (
         <Provider session={pageProps.session}>
             <CartProvider
