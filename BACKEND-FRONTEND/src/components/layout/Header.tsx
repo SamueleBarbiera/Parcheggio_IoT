@@ -30,7 +30,7 @@ function classNames(...classes: any[]) {
 }
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const [session, loading] = useSession()
+    const { data: session, status } = useSession()
     const { cartCount } = useShoppingCart()
 
     return (
@@ -142,7 +142,6 @@ export default function Header() {
                                             </button>
                                         </div>
 
-
                                         <div className="flex flex-1 items-center justify-end">
                                             <div className="-mr-4 flex items-center">
                                                 {/* Help */}
@@ -214,7 +213,7 @@ export default function Header() {
                                                             )}
                                                         </Popover>
                                                     </div>
-                                                ) : loading ? (
+                                                ) : status == 'loading' ? (
                                                     <RefreshIcon className="mr-4 h-6 w-6 flex-shrink-0 animate-spin text-indigo-800 " />
                                                 ) : (
                                                     <>
@@ -225,7 +224,6 @@ export default function Header() {
                                                         </a>
                                                     </>
                                                 )}
-                                                
                                             </div>
                                         </div>
                                     </div>

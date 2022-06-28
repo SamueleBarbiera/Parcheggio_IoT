@@ -1,12 +1,13 @@
 import { Prisma } from '@prisma/client'
-import prisma from '../lib/prisma'
+import prisma from '../src/lib/prisma'
 
 const arrPIANO1: any = []
+const arrPIANO2: any = []
+
 for (let x = 0; x < 50; x++) {
     arrPIANO1[x] = { posto: x, piano: 1, parcheggio_stato: false }
 }
 
-const arrPIANO2: any = []
 for (let y = 0; y < 50; y++) {
     arrPIANO2[y] = { posto: y, piano: 2, parcheggio_stato: false }
 }

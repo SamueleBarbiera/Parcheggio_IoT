@@ -5,7 +5,7 @@ import { AppProviders } from 'next-auth/providers'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { NextApiRequest, NextApiResponse } from 'next'
-import PrismaAdapter from '@next-auth/prisma-adapter'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
@@ -89,7 +89,7 @@ if (ErrorGoogleEnv) {
             clientId: GOOGLE_CLIENT_ID!,
             clientSecret: GOOGLE_CLIENT_SECRET!,
             accessTokenUrl: GOOGLE_AUTHORIZATION_URL,
-            profile(profile: { id: any; login: any; email: any; avatar_url: any }) {
+            profile(profile: any) {
                 return {
                     id: profile.id,
                     name: profile.login,
@@ -117,7 +117,6 @@ export const options: NextAuthOptions = {
         async jwt({ token, user, account }: any) {
             const isSignIn = user && account ? true : false
             if (isSignIn) {
-                
                 token.accessToken = account.access_token
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/api/auth/${account!.provider}/callback?access_token=${
@@ -144,8 +143,6 @@ export const options: NextAuthOptions = {
                 String(process.env.GOOGLE_CLIENT_ID),
                 String(process.env.GOOGLE_CLIENT_SECRET)
             )
-            
-            return token
         },
     },
     pages: {

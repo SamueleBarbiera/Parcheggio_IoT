@@ -6,7 +6,7 @@ import { CartProvider } from 'use-shopping-cart'
 import '../styles/globals.css'
 const CURRENCY = 'EUR'
 
-export default function MyApp: AppType ({ Component, pageProps: { session, ...pageProps } }) {
+const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {
     return (
         <SessionProvider session={pageProps.session}>
             <CartProvider
@@ -27,3 +27,5 @@ export default function MyApp: AppType ({ Component, pageProps: { session, ...pa
         </SessionProvider>
     )
 }
+
+export default MyApp
