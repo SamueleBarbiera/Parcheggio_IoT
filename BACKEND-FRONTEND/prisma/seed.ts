@@ -36,6 +36,7 @@ const parcheggiData2: Prisma.ParcheggiCreateInput[] = arrPIANO2
 async function main() {
     console.log('Start seeding ...')
     await prisma.parcheggi.deleteMany({})
+    await prisma.rfids.deleteMany({})
     const parcheggi = await prisma.parcheggi.createMany({
         data: parcheggiData,
     })

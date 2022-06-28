@@ -3,7 +3,7 @@ module.exports = {
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/aspect-ratio')],
     content: {
         enabled: process.env.NODE_ENV === 'production',
-        content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+        content: ['./src/**/*.{js,ts,jsx,tsx}'],
         options: {
             safelist: [],
         },
@@ -37,20 +37,6 @@ module.exports = {
                 152: '56rem',
                 165: '64rem',
                 182: '71rem',
-            },
-            colors: {
-                beige: {
-                    50: '#fcfaf9',
-                    100: '#f8f5f2',
-                    200: '#eee5df',
-                    300: '#dac1a0',
-                    400: '#caae99',
-                    500: '#bc987e',
-                    600: '#a98971',
-                    700: '#8d725f',
-                    800: '#715b4c',
-                    900: '#5c4a3e',
-                },
             },
         },
     },
