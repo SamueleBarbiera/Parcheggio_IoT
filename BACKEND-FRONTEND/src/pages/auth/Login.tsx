@@ -4,7 +4,8 @@ import Header from '../../components/layout/Header'
 import LoginForm from '../../components/auth/LoginForm'
 import Head from 'next/head'
 import { getProviders, getSession } from 'next-auth/react'
-import PrismaClient from '@prisma/client'
+import { authOptions } from '../api/auth/[...nextauth]'
+import { unstable_getServerSession } from 'next-auth/next'
 import prisma from '../../lib/prisma'
 import { useShoppingCart } from 'use-shopping-cart'
 import React, { useEffect } from 'react'
@@ -30,8 +31,10 @@ const Login: React.FC<any> = ({ providers }: InferGetServerSidePropsType<typeof 
 }
 
 export default Login
-export const getServerSideProps: GetServerSideProps = async ({ req }: any) => {
-    const session = await getSession({ req })
+
+export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+    const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions)
+    console.log('🚀 - file: Login.tsx - line 40 - constgetServerSideProps:GetServerSideProps= - sessions', session)
 
     if (session) {
         try {

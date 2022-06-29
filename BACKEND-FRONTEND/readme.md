@@ -1,8 +1,4 @@
-<p align="center">
-<a href=""><img src="./frontend/public/question-solid.svg" width="400px" height="120px"/></a>
-</p>
-
-# Enigma Ecommerce Site 🔮
+# BUGSEATING Parking Site 🔮
 
 ## Frontend ⚡
 
@@ -11,16 +7,13 @@
 
 ## Backend 👨‍💻
 
--   [**Strapi**](https://www.strapi.io/) Sanity CMS used as a backend for this jamstack project
+-   [**Rest**] Apis used to fetch deta
+-   [**Stripe**](https://stripe.com/) Payment api used on the checkout
+-   [**Zod**](https://zod.dev/) Validation library for post & put req
 
 ## Deployment 🚧
 
 -   [**Railway.app**](https://railway.app/) Cloud platform for backend & frontend deployment
-
-## Standard Api 🎯
-
--   [**Rest**] Apis used to fetch deta
--   [**Stripe**](https://stripe.com/) Payment api used on the checkout
 
 ## Database 🧱
 

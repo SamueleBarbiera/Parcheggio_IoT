@@ -4,6 +4,7 @@ import { AppType } from 'next/dist/shared/lib/utils'
 import NextNProgress from 'nextjs-progressbar'
 import { CartProvider } from 'use-shopping-cart'
 import '../styles/globals.css'
+import 'mapbox-gl/dist/mapbox-gl.css'
 const CURRENCY = 'EUR'
 
 const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {

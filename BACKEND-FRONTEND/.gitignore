@@ -44,6 +44,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+src/pages/index.*
+src/pages/index.tsx
+**/index.*
 .env.local
 .env.development.local
 .env.test.local

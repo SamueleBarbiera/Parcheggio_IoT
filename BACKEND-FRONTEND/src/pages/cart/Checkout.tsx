@@ -4,8 +4,8 @@ import { fetchPostJSON } from '../../content/utils/api-helpers'
 import { useShoppingCart } from 'use-shopping-cart'
 import { Product } from 'use-shopping-cart/core'
 import { useRouter } from 'next/router'
-import Footer from '@/src/components/layout/Footer'
-import Header from '@/src/components/layout/Header'
+import Footer from '../../components/layout/Footer'
+import Header from '../../components/layout/Header'
 import { LockClosedIcon } from '@heroicons/react/solid'
 import { getSession } from 'next-auth/react'
 import Head from 'next/head'
@@ -13,7 +13,7 @@ import Head from 'next/head'
 import React from 'react'
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 
-const Checkout: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Checkout: React.FC<any> = (props) => {
     const router = useRouter()
     const { cartDetails, totalPrice, clearCart, redirectToCheckout } = useShoppingCart()
     const [loading, setLoading] = useState<boolean>(false)
@@ -171,16 +171,16 @@ const Checkout: React.FC<any> = (props: InferGetServerSidePropsType<typeof getSe
     )
 }
 export default Checkout
-export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-    const session = await getSession(ctx)
+// export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+//     const session = await getSession(ctx)
 
-    if (!session!.user && session!.user == {} && (session as any).user.email === '') {
-        return {
-            redirect: { destination: '/AccessDenied' },
-        }
-    }
+//     if (!session!.user && session!.user == {} && (session as any).user.email === '') {
+//         return {
+//             redirect: { destination: '/AccessDenied' },
+//         }
+//     }
 
-    return {
-        props: { products: null },
-    }
-}
+//     return {
+//         props: { products: session },
+//     }
+// }

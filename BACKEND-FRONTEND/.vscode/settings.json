@@ -1,4 +1,19 @@
 {
     "WillLuke.nextjs.addTypesOnSave": true,
-    "WillLuke.nextjs.hasPrompted": true
+    "WillLuke.nextjs.hasPrompted": true,
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "3c48ak2k4r4j.eu-central-2.psdb.cloud",
+            "port": 3306,
+            "askForPassword": true,
+            "driver": "MySQL",
+            "name": "BUGSEATING",
+            "username": "ew8v0qblo74w",
+            "database": "parcheggio-iot"
+        }
+    ]
 }

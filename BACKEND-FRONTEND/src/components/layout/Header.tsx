@@ -4,7 +4,7 @@
 import { RefreshIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Dialog, Popover, Transition } from '@headlessui/react'
 import { FaRegUser, FaParking } from 'react-icons/fa'
-import { useSession, signOut } from 'next-auth/react'
+import { useSession, signOut, getSession } from 'next-auth/react'
 import { Fragment } from 'react'
 import { useState } from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
@@ -14,7 +14,7 @@ const navigation = {
     pages: [
         {
             name: 'Home',
-            href: '#',
+            href: '/',
             icon: <AiTwotoneCar className="h-6 w-6 flex-shrink-0 text-indigo-900" aria-hidden="true" />,
         },
         {
@@ -31,7 +31,7 @@ function classNames(...classes: any[]) {
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const { data: session, status } = useSession()
-    const { cartCount } = useShoppingCart()
+    console.log("🚀 - file: Header.tsx - line 34 - Header - session", session)
 
     return (
         <>
@@ -107,7 +107,7 @@ export default function Header() {
                                     <div className="flex h-16 items-center justify-between">
                                         {/* Logo (lg+) */}
                                         <div className="hidden md:flex md:flex-1 lg:items-center">
-                                            <a href="#" className="flex-shrink-0">
+                                            <a href="/" className="flex-shrink-0">
                                                 <AiTwotoneCar
                                                     className="h-6 w-6 flex-shrink-0 text-indigo-900"
                                                     aria-hidden="true"

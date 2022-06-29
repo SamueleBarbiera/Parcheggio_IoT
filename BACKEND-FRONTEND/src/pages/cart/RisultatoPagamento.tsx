@@ -10,8 +10,10 @@ import Footer from '../../components/layout/Footer'
 import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { authOptions } from '../api/auth/[...nextauth]'
+import { unstable_getServerSession } from 'next-auth/next'
 
-const RisultatoPagamento: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const RisultatoPagamento: React.FC<any> = (props) => {
     const router = useRouter()
     const { clearCart } = useShoppingCart()
     const { data, error } = useSWR(
@@ -68,16 +70,18 @@ const RisultatoPagamento: React.FC<any> = (props: InferGetServerSidePropsType<ty
 }
 export default RisultatoPagamento
 
-export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-    const session = await getSession(ctx)
+// export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+//     const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions)
 
-    if (!session!.user && session!.user == {} && (session as any).user.email === '') {
-        return {
-            redirect: { destination: '/AccessDenied' },
-        }
-    }
+//     if (!session) {
+//         return {
+//             redirect: { destination: '/AccessDenied' },
+//         }
+//     }
 
-    return {
-        props: { products: null },
-    }
-}
+//     return {
+//         props: {
+//             session,
+//         },
+//     }
+// }

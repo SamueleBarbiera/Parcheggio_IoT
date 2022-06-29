@@ -20,10 +20,12 @@ module.exports = withPWA({
     },
     env: {
         API_URL: process.env.NEXT_URL,
+        MAPBOX_KEY: process.env.MAPBOX_KEY,
         //IMAGES_DOMAIN: process.env.IMAGES_DOMAIN,
     },
     publicRuntimeConfig: {
         API_URL: process.env.NEXT_URL,
+        MAPBOX_KEY: process.env.MAPBOX_KEY,
         //IMAGES_DOMAIN: process.env.IMAGES_DOMAIN,
     },
 })

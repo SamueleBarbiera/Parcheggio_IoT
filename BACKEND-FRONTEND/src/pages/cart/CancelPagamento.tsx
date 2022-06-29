@@ -1,14 +1,15 @@
 import Header from '../../components/layout/Header'
 import Footer from '../../components/layout/Footer'
 import { CheckIcon } from '@heroicons/react/solid'
-import AccessDenied from '@/pages/AccessDenied'
+import AccessDenied from '../AccessDenied'
 import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from 'next'
 import React from 'react'
+import { unstable_getServerSession } from 'next-auth/next'
 import { ParsedUrlQuery } from 'querystring'
 
-const CancelPagamento: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const CancelPagamento: React.FC<any> = () => {
     return (
         <>
             <Head>
@@ -30,16 +31,17 @@ const CancelPagamento: React.FC<any> = (props: InferGetServerSidePropsType<typeo
     )
 }
 export default CancelPagamento
-export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-    const session = await getSession(ctx)
 
-    if (!session!.user && session!.user == {} && (session as any).user.email === '') {
-        return {
-            redirect: { destination: '/AccessDenied' },
-        }
-    }
+// export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+//     const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions)
 
-    return {
-        props: { products: null },
-    }
-}
+//     if (!session!.user && session!.user == {} && (session as any).user.email === '') {
+//         return {
+//             redirect: { destination: '/AccessDenied' },
+//         }
+//     }
+
+//     return {
+//         props: { products: null },
+//     }
+// }

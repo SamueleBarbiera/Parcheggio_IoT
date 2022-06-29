@@ -37,7 +37,7 @@
             "@/pages/*": ["./pages/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/map/Map.tsx", "src/pages/index.tsx"],
     "exclude": ["typings/browser.d.ts", "typings/browser", "node_modules"],
     "ts-node": {
         "compilerOptions": {

@@ -6,8 +6,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import prisma from '../../../lib/prisma'
 
 const GOOGLE_AUTHORIZATION_URL =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
@@ -101,55 +100,17 @@ if (ErrorGoogleEnv) {
     )
 }
 
-export const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma as any),
     providers,
     secret: process.env.NEXTAUTH_SECRET,
     jwt: {
         secret: process.env.NEXTAUTH_SECRET,
     },
-    callbacks: {
-        async session({ session, user }: any) {
-            session.jwt = user.jwt
-            session.id = user.id
-            return session
-        },
-        async jwt({ token, user, account }: any) {
-            const isSignIn = user && account ? true : false
-            if (isSignIn) {
-                token.accessToken = account.access_token
-                const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/auth/${account!.provider}/callback?access_token=${
-                        account!?.access_token
-                    }`
-                )
-                const data = await response.json()
-                ;(token.accessToken = account!.accessToken),
-                    (token.accessTokenExpires = account!.expires_in!),
-                    (token.refreshToken = account!.refresh_token),
-                    (token.jwt = data.jwt)
-                token.id = data.user.id
-                console.log(data, token)
-            }
-
-            // Return previous token if the access token has not expired yet
-            if (Date.now() < (token as any).accessTokenExpires) {
-                return token
-            }
-
-            // Access token has expired, try to update it
-            return await refreshAccessToken(
-                token,
-                String(process.env.GOOGLE_CLIENT_ID),
-                String(process.env.GOOGLE_CLIENT_SECRET)
-            )
-        },
-    },
     pages: {
         signIn: '/auth/Login',
-        error: '/auth/Login',
     },
     debug: true,
 }
 
-export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, options)
+export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, authOptions)
