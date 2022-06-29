@@ -1,35 +1,37 @@
 import { useState } from 'react'
-import ReactMapGL, { Marker } from 'react-map-gl'
-export default function Map({ locations }:any) {
+import ReactMapGL, { Marker, Popup } from 'react-map-gl'
+import getCenter from 'geolib/es/getCenter'
+
+export default function Map(locations: any) {
+    const [selectedLocation, setSelectedLocation] = useState<any>({})
+
+    //   Transform coordinates into required array of objects in the correct shape
+    const coordinates: any = {
+        latitude: locations.lat,
+        longitude: locations.long,
+    }
+
+    // The latitude and longitude of the center of locations coordinates
+    const center: any = getCenter(coordinates)
+
     const [viewport, setViewport] = useState({
         width: '100%',
         height: '100%',
-        // The latitude and longitude of the center of London
-        latitude: 51.5074,
-        longitude: -0.1278,
-        zoom: 10,
+        latitude: center.latitude,
+        longitude: center.longitude,
+        zoom: 11,
     })
+
     return (
-        <ReactMapGL
-            mapStyle="mapbox://styles/mapbox/streets-v11"
-            mapboxApiAccessToken={process.env.MAPBOX_KEY}
-            {...viewport}
-            onViewportChange={(nextViewport:any) => setViewport(nextViewport)}
-        >
-            {locations.map((location:any) => (
-                <div key={location.id}>
-                    <Marker
-                        latitude={location.center[1]}
-                        longitude={location.center[0]}
-                        offsetLeft={-20}
-                        offsetTop={-10}
-                    >
-                        <span role="img" aria-label="push-pin">
-                            📌
-                        </span>
-                    </Marker>
-                </div>
-            ))}
-        </ReactMapGL>
+        <Map
+            initialViewState={{
+                longitude: -100,
+                latitude: 40,
+                zoom: 3.5,
+            }}
+            style={{ width: '100vw', height: '100vh' }}
+            mapStyle="mapbox://styles/mapbox/streets-v9"
+            mapboxAccessToken={process.env.MAPBOX_KEY}
+        />
     )
 }
