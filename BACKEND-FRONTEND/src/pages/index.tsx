@@ -12,6 +12,11 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
+const Map = dynamic(() => import('../components/map/Map'), {
+    loading: () => 'Loading...',
+    ssr: false,
+})
+
 export default function Home(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [viewport, setViewport] = useState<any>({
         width: '100%',
@@ -49,7 +54,7 @@ export default function Home(props: InferGetServerSidePropsType<typeof getServer
                 <main className="flex h-screen items-center justify-center">
                     <ReactMapGL
                         mapStyle="mapbox://styles/mapbox/streets-v11"
-                        mapboxApiAccessToken='pk.eyJ1Ijoic2FtdWVsZWJhciIsImEiOiJjbDR5aXUweXcxc2c4M2RwaG42ejA5dWhyIn0.7W4XYH511gTPfwSt2cZkHQ'
+                        mapboxApiAccessToken="pk.eyJ1Ijoic2FtdWVsZWJhciIsImEiOiJjbDR5aXUweXcxc2c4M2RwaG42ejA5dWhyIn0.7W4XYH511gTPfwSt2cZkHQ"
                         {...viewport}
                         onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
                     >
