@@ -11,6 +11,7 @@ import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import { useShoppingCart } from 'use-shopping-cart'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { MdLocalParking } from 'react-icons/md'
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -77,19 +78,19 @@ const Parcheggi: React.FC<any> = (props: InferGetServerSidePropsType<typeof getS
                     {parcheggi ? (
                         <>
                             {piano && (
-                                <div className="my-4 mx-8 flex h-min flex-auto  flex-row rounded-lg bg-indigo-100 p-4  ">
+                                <div className="mx-8 my-2 mb-4 -mt-1 flex h-min flex-auto flex-row  rounded-lg bg-indigo-100 p-4 ">
                                     <p className="text-2xl font-medium">Piano 1</p>
                                 </div>
                             )}
-                            <div className="space-4 m-12 mx-8 mt-0 grid grid-cols-2 items-center justify-center gap-0 rounded-lg bg-indigo-100 p-4 shadow-lg sm:grid-cols-3 smd:grid-cols-4 md:grid-cols-5 xlmd:grid-cols-6 lg:grid-cols-8 xl:grid-cols-11 ">
+                            <div className=" space-4 m-12   mx-8 mt-0 grid grid-cols-2 items-center justify-center gap-0 divide-x-4 divide-white rounded-lg bg-indigo-100 p-4 shadow-lg sm:grid-cols-3 smd:grid-cols-4 md:grid-cols-5 xlmd:grid-cols-6 lg:grid-cols-8 xl:grid-cols-11 ">
                                 {piano &&
                                     parcheggi.parcheggi1.map((p: any) => (
                                         <div key={p.parcheggi_id}>
-                                            <p className="relative left-4 top-9 text-indigo-50">{p.posto}</p>
-                                            <AiTwotoneCar
+                                            <p className="relative left-6 top-7 text-indigo-50">{p.posto}</p>
+                                            <MdLocalParking
                                                 className={classNames(
-                                                    p.parcheggio_stato == false ? 'bg-red-900' : 'bg-green-900 ',
-                                                    'transiction dutation-200 m-2 h-24 w-24 rounded-md border p-6 shadow-xl ease-in-out hover:motion-safe:animate-pulse'
+                                                    p.parcheggio_stato == false ? 'bg-red-900 ' : 'bg-green-900 text-white',
+                                                    ' transiction mx-4 h-20 w-20 rounded-md border p-5 text-gray-900 shadow-xl duration-200 ease-in-out hover:motion-safe:animate-pulse'
                                                 )}
                                             />
                                         </div>
@@ -100,15 +101,15 @@ const Parcheggi: React.FC<any> = (props: InferGetServerSidePropsType<typeof getS
                                     <p className="text-2xl font-medium">Piano 2</p>
                                 </div>
                             )}
-                            <div className="space-4 m-12 mx-8 mt-0 grid grid-cols-2 items-center justify-center gap-0 rounded-lg bg-indigo-100 p-4 shadow-lg sm:grid-cols-3 smd:grid-cols-4 md:grid-cols-5 xlmd:grid-cols-6 lg:grid-cols-8  xl:grid-cols-11 ">
+                            <div className="mx-8 mb-12  grid grid-cols-2 items-center justify-center gap-0 divide-x-4 divide-white rounded-lg bg-indigo-100 p-4 shadow-lg sm:grid-cols-3 smd:grid-cols-4 md:grid-cols-5 xlmd:grid-cols-6 lg:grid-cols-8  xl:grid-cols-11 ">
                                 {!piano &&
                                     parcheggi.parcheggi2.map((p: any) => (
                                         <div key={p.parcheggi_id}>
-                                            <p className="relative left-4 top-9 text-indigo-50">{p.posto}</p>
-                                            <AiTwotoneCar
+                                            <p className="relative left-6 top-7 text-indigo-50">{p.posto}</p>
+                                            <MdLocalParking
                                                 className={classNames(
-                                                    p.parcheggio_stato == false ? 'bg-red-900' : 'bg-green-900 ',
-                                                    'transiction dutation-200 m-2 h-24 w-24 rounded-md border p-6 shadow-xl ease-in-out hover:motion-safe:animate-pulse'
+                                                    p.parcheggio_stato == false ? 'bg-red-900 ' : 'bg-green-900  text-white',
+                                                    ' transiction mx-4 h-20 w-20 rounded-md border p-5 text-gray-900 shadow-xl duration-200 ease-in-out hover:motion-safe:animate-pulse'
                                                 )}
                                             />
                                         </div>
