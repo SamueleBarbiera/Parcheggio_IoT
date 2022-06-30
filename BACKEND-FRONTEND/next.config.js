@@ -8,24 +8,8 @@ module.exports = withPWA({
     },
     reactStrictMode: true,
     swcMinify: true,
-    typescript: {
-        ignoreBuildErrors: true,
-    },
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
     images: {
         domains: ['lh3.googleusercontent.com'],
         formats: ['image/avif', 'image/webp'],
-    },
-    env: {
-        API_URL: process.env.NEXT_URL,
-        MAPBOX_KEY: process.env.MAPBOX_KEY,
-        //IMAGES_DOMAIN: process.env.IMAGES_DOMAIN,
-    },
-    publicRuntimeConfig: {
-        API_URL: process.env.NEXT_URL,
-        MAPBOX_KEY: process.env.MAPBOX_KEY,
-        //IMAGES_DOMAIN: process.env.IMAGES_DOMAIN,
     },
 })
