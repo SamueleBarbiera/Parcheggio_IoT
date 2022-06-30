@@ -13,7 +13,7 @@ import MapProps from '../components/map/pass-map-with-props'
 import { AiOutlineLoading } from 'react-icons/ai'
 import { ExclamationCircleIcon } from '@heroicons/react/outline'
 
-export default function Home(props) {
+export default function Home() {
     const [loading, setLoading] = useState(true)
     const handleMapLoading = () => setLoading(false)
     const Router = useRouter()
