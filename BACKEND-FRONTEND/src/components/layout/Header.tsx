@@ -4,7 +4,7 @@
 import { RefreshIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Dialog, Popover, Transition } from '@headlessui/react'
 import { FaRegUser, FaParking } from 'react-icons/fa'
-import { useSession, signOut, getSession } from 'next-auth/react'
+import { useSession, signOut, getSession } from 'next-auth/client'
 import { Fragment } from 'react'
 import { useState } from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
@@ -31,7 +31,7 @@ function classNames(...classes: any[]) {
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const { data: session, status } = useSession()
-    console.log("🚀 - file: Header.tsx - line 34 - Header - session", session)
+    console.log('🚀 - file: Header.tsx - line 34 - Header - session', session)
 
     return (
         <>

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import { LockClosedIcon } from '@heroicons/react/solid'
-import { getSession } from 'next-auth/react'
+import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 
 import React from 'react'

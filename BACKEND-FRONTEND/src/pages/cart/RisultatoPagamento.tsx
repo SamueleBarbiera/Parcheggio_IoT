@@ -7,7 +7,7 @@ import { fetchGetJSON } from '../../content/utils/api-helpers'
 import { CheckIcon, RefreshIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import Header from '../../components/layout/Header'
 import Footer from '../../components/layout/Footer'
-import { getSession } from 'next-auth/react'
+import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { authOptions } from '../api/auth/[...nextauth]'
@@ -70,18 +70,18 @@ const RisultatoPagamento: React.FC<any> = (props) => {
 }
 export default RisultatoPagamento
 
-// export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-//     const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions)
+export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+    const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions)
 
-//     if (!session) {
-//         return {
-//             redirect: { destination: '/AccessDenied' },
-//         }
-//     }
+    if (!session) {
+        return {
+            redirect: { destination: '/AccessDenied' },
+        }
+    }
 
-//     return {
-//         props: {
-//             session,
-//         },
-//     }
-// }
+    return {
+        props: {
+            session,
+        },
+    }
+}

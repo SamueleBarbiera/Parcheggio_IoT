@@ -8,6 +8,7 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 import React from 'react'
 import { unstable_getServerSession } from 'next-auth/next'
 import { ParsedUrlQuery } from 'querystring'
+import { authOptions } from '../api/auth/[...nextauth]'
 
 const CancelPagamento: React.FC<any> = () => {
     return (
@@ -32,16 +33,16 @@ const CancelPagamento: React.FC<any> = () => {
 }
 export default CancelPagamento
 
-// export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-//     const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions)
+export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+    const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions)
 
-//     if (!session!.user && session!.user == {} && (session as any).user.email === '') {
-//         return {
-//             redirect: { destination: '/AccessDenied' },
-//         }
-//     }
+    if (!session!.user && session!.user == {} && (session as any).user.email === '') {
+        return {
+            redirect: { destination: '/AccessDenied' },
+        }
+    }
 
-//     return {
-//         props: { products: null },
-//     }
-// }
+    return {
+        props: { products: null },
+    }
+}
