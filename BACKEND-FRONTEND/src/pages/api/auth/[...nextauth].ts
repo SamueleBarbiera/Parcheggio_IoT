@@ -6,8 +6,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import prisma from '../../../lib/prisma'
 
 const GOOGLE_AUTHORIZATION_URL =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
@@ -90,11 +89,12 @@ if (ErrorGoogleEnv) {
             clientSecret: GOOGLE_CLIENT_SECRET!,
             accessTokenUrl: GOOGLE_AUTHORIZATION_URL,
             profile(profile: any) {
+                console.log('🚀 - file: [...nextauth].ts - line 92 - profile - profile', profile)
                 return {
-                    id: profile.id,
-                    name: profile.login,
+                    id: profile.sub,
+                    name: profile.name,
                     email: profile.email,
-                    image: profile.avatar_url,
+                    image: profile.picture,
                 } as any
             },
         })
@@ -102,14 +102,17 @@ if (ErrorGoogleEnv) {
 }
 
 export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(prisma as any),
+    adapter: PrismaAdapter(prisma),
     providers,
     secret: process.env.NEXTAUTH_SECRET,
     jwt: {
         secret: process.env.NEXTAUTH_SECRET,
     },
     callbacks: {
-        async session({ session, user }: any) {
+        async session({ session, token, user }: any) {
+            console.log("🚀 - file: [...nextauth].ts - line 113 - session - token", token)
+            console.log("🚀 - file: [...nextauth].ts - line 113 - session - user", user)
+            console.log("🚀 - file: [...nextauth].ts - line 113 - session - session", session)
             session.jwt = user.jwt
             session.id = user.id
             return session
@@ -117,17 +120,18 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user, account }: any) {
             const isSignIn = user && account ? true : false
             if (isSignIn) {
-                token.accessToken = account.access_token
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/api/auth/${account!.provider}/callback?access_token=${
                         account!?.access_token
                     }`
                 )
                 const data = await response.json()
-                ;(token.accessToken = account!.accessToken),
+                console.log('🚀 - file: [...nextauth].ts - line 127 - jwt - data', data)
+                ;(token.access_token = account!.access_token),
                     (token.accessTokenExpires = account!.expires_in!),
                     (token.refreshToken = account!.refresh_token),
                     (token.jwt = data.jwt)
+                token.access_token = account.access_token
                 token.id = data.user.id
                 console.log(data, token)
             }

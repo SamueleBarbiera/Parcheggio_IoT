@@ -4,7 +4,7 @@
 import { RefreshIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Dialog, Popover, Transition } from '@headlessui/react'
 import { FaRegUser, FaParking } from 'react-icons/fa'
-import { useSession, signOut, getSession } from 'next-auth/client'
+import { useSession, signOut, getSession } from 'next-auth/react'
 import { Fragment } from 'react'
 import { useState } from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
@@ -145,7 +145,7 @@ export default function Header() {
                                         <div className="flex flex-1 items-center justify-end">
                                             <div className="-mr-4 flex items-center">
                                                 {/* Help */}
-                                                {session ? (
+                                                {status === 'authenticated' ? (
                                                     <div className="ml-2 mr-4 mt-[0.4rem] flow-root">
                                                         <Popover className="relative">
                                                             {({ open }: any) => (
@@ -213,9 +213,9 @@ export default function Header() {
                                                             )}
                                                         </Popover>
                                                     </div>
-                                                ) : status == 'loading' ? (
+                                                ) : status === 'loading' ? (
                                                     <RefreshIcon className="mr-4 h-6 w-6 flex-shrink-0 animate-spin text-indigo-800 " />
-                                                ) : (
+                                                ) : status === 'unauthenticated' ? (
                                                     <>
                                                         <a href="/auth/Login">
                                                             <button className="mr-4 rounded-lg bg-indigo-500 py-1 px-2 text-indigo-50 transition duration-200 ease-in-out hover:bg-indigo-600">
@@ -223,6 +223,8 @@ export default function Header() {
                                                             </button>
                                                         </a>
                                                     </>
+                                                ) : (
+                                                    <></>
                                                 )}
                                             </div>
                                         </div>

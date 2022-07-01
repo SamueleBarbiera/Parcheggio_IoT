@@ -1,6 +1,6 @@
 /* eslint-disable no-control-regex */
 /* eslint-disable no-unused-vars */
-import { signIn } from 'next-auth/client'
+import { signIn } from 'next-auth/react'
 import { AiTwotoneCar } from 'react-icons/ai'
 
 export default function LoginForm({ providers }: any) {
