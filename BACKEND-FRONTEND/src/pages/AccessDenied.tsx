@@ -3,7 +3,7 @@ import { FcLock } from 'react-icons/fc'
 import { CgArrowDown } from 'react-icons/cg'
 import Head from 'next/head'
 
-export default function AccessDenied(props) {
+export default function AccessDenied() {
     return (
         <>
             <Head>

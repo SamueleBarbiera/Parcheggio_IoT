@@ -55,3 +55,4 @@ yarn-error.log*
 .vercel
 
 **/debug.log
+.vercel

@@ -13,7 +13,7 @@ import Head from 'next/head'
 import React from 'react'
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 
-const Checkout: React.FC<any> = (props) => {
+const Checkout: React.FC<any> = () => {
     const router = useRouter()
     const { cartDetails, totalPrice, clearCart, redirectToCheckout } = useShoppingCart()
     const [loading, setLoading] = useState<boolean>(false)

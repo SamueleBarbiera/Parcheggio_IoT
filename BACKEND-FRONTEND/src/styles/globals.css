@@ -28,11 +28,21 @@ body {
     right: 0;
 }
 .container {
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+    @apply list-outside list-disc;
 }
-.container::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
+li {
+    @apply list-outside list-disc;
+}
+ul {
+    @apply m-4 rounded-lg bg-indigo-50 p-4 px-12;
+}
+h2 {
+    @apply  text-xl;
+}
+.container::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
 }
 .loading-holder {
     background: -webkit-linear-gradient(45deg, rgba(152, 207, 195, 0.7), rgb(86, 181, 184));

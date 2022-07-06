@@ -13,7 +13,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from 'next-auth/next'
 
-const RisultatoPagamento: React.FC<any> = (props) => {
+const RisultatoPagamento: React.FC<any> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const router = useRouter()
     const { clearCart } = useShoppingCart()
     const { data, error } = useSWR(

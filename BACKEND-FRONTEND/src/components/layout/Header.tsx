@@ -7,8 +7,11 @@ import { FaRegUser, FaParking } from 'react-icons/fa'
 import { useSession, signOut, getSession } from 'next-auth/react'
 import { Fragment } from 'react'
 import { useState } from 'react'
-import { useShoppingCart } from 'use-shopping-cart'
 import { AiTwotoneCar } from 'react-icons/ai'
+import { unstable_getServerSession } from 'next-auth'
+import { GetServerSideProps } from 'next'
+import { authOptions } from 'src/pages/api/auth/[...nextauth]'
+import Image from 'next/image'
 
 const navigation = {
     pages: [
@@ -25,13 +28,18 @@ const navigation = {
     ],
 }
 
+interface User {
+    name: string
+    email: string
+    img: string
+}
+
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(' ')
 }
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const { data: session, status } = useSession()
-    console.log('🚀 - file: Header.tsx - line 34 - Header - session', session)
 
     return (
         <>
@@ -153,9 +161,9 @@ export default function Header() {
                                                                     <Popover.Button
                                                                         className={classNames(
                                                                             open
-                                                                                ? 'text-indigo-900'
-                                                                                : 'text-indigo-800',
-                                                                            'group inline-flex items-center rounded-md text-base font-medium hover:text-indigo-900 '
+                                                                                ? 'border-0 text-indigo-900  focus-visible:ring-0 focus-visible:ring-opacity-100'
+                                                                                : 'border-0 text-indigo-800  focus-visible:ring-0 focus-visible:ring-opacity-100',
+                                                                            'group  inline-flex items-center rounded-md text-base font-medium hover:text-indigo-900 focus-visible:ring-0 focus-visible:ring-opacity-100 '
                                                                         )}
                                                                     >
                                                                         <a
@@ -184,11 +192,12 @@ export default function Header() {
                                                                                     <div className="relative my-4 items-center">
                                                                                         <img
                                                                                             src={
-                                                                                                session!.user!
-                                                                                                    .image! as any
+                                                                                                'https://lh3.googleusercontent.com/a-/AOh14GhV_WrX2IOJD7VLQqBssZ2-U7m77dwXwsF1V0sY=s96-c'
                                                                                             }
                                                                                             alt="User Img"
                                                                                             className="mx-auto h-24 w-24 rounded-full shadow-md"
+                                                                                            width={350}
+                                                                                            height={350}
                                                                                         />
                                                                                     </div>
                                                                                     <p className="font-semibold text-indigo-900 contrast-150">
@@ -215,7 +224,7 @@ export default function Header() {
                                                     </div>
                                                 ) : status === 'loading' ? (
                                                     <RefreshIcon className="mr-4 h-6 w-6 flex-shrink-0 animate-spin text-indigo-800 " />
-                                                ) : status === 'unauthenticated' ? (
+                                                ) : (
                                                     <>
                                                         <a href="/auth/Login">
                                                             <button className="mr-4 rounded-lg bg-indigo-500 py-1 px-2 text-indigo-50 transition duration-200 ease-in-out hover:bg-indigo-600">
@@ -223,8 +232,6 @@ export default function Header() {
                                                             </button>
                                                         </a>
                                                     </>
-                                                ) : (
-                                                    <></>
                                                 )}
                                             </div>
                                         </div>
