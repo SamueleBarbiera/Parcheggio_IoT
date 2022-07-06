@@ -6,6 +6,7 @@
     "license": "MIT",
     "author": "BUGSEATING",
     "scripts": {
+        "vercel-build": "npm run prepare && run-s build:*",
         "dev": "next dev",
         "db-dev": "run-s dev:*",
         "build": "run-s build:*",
