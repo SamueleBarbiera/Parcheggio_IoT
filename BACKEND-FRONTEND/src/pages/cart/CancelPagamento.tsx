@@ -10,7 +10,7 @@ import { unstable_getServerSession } from 'next-auth/next'
 import { ParsedUrlQuery } from 'querystring'
 import { authOptions } from '../api/auth/[...nextauth]'
 
-const CancelPagamento: React.FC<any> = () => {
+export default function CancelPagamento() {
     return (
         <>
             <Head>
@@ -31,9 +31,8 @@ const CancelPagamento: React.FC<any> = () => {
         </>
     )
 }
-export default CancelPagamento
 
-export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+export const getServerSideProps = async (ctx: any) => {
     const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions)
 
     if (!session!.user && session!.user == {} && (session as any).user.email === '') {
